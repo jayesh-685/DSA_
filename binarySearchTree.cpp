@@ -184,6 +184,24 @@ void levelOrderTraversal(Node *root) {
     cout << endl;
 }
 
+// given a BST, find the floor of x i.e the largest integer no larger than x.
+Node* floor (Node* root, int x) {
+    // we will maintain a variable res which we will only update when we go right because we want to find floor
+    Node* res =  NULL;
+    while (root != NULL) {
+        if (root->key == x)
+            return root;
+        else if (x < root->key)
+            root = root->left;
+        else {
+            res = root;
+            root = root->right;
+        }
+    }
+    return res;
+}
+// traversing across the height of the binary tree so time complexity is O(H) and aux space is O(1)
+
 int main () {
     // Node *root = new Node(30);
     // root->left = new Node(12);
