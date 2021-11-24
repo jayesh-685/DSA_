@@ -277,6 +277,23 @@ Node* deleteNode (Node* head, int element) {
     return head;
 }
 
+Node* reverseK (Node* head, int k) {
+    Node* curr = head;
+    Node* next = NULL;
+    Node* prev = NULL;
+    while (curr != NULL && k--) {
+        Node* next = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = next;
+    }
+    return prev;
+}
+
+Node* reverseinK (Node* head, int k) {
+    
+}
+
 int main() 
 { 
     // simple implementation
