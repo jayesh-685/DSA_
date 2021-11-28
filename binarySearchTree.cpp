@@ -19,6 +19,8 @@ struct Node
     }
 };
 
+// inorder traversal of BST is a sorted array
+
 bool bstSearchR (Node* root, int x) {
     if (root == NULL)
         return false;
@@ -185,7 +187,7 @@ void levelOrderTraversal(Node *root) {
 }
 
 // given a BST, find the floor of x i.e the largest integer no larger than x.
-Node* floor (Node* root, int x) {
+Node* BSTfloor (Node* root, int x) {
     // we will maintain a variable res which we will only update when we go right because we want to find floor
     Node* res =  NULL;
     while (root != NULL) {
@@ -201,6 +203,22 @@ Node* floor (Node* root, int x) {
     return res;
 }
 // traversing across the height of the binary tree so time complexity is O(H) and aux space is O(1)
+
+Node* BSTceil (Node* root, int x) {
+    Node* res =  NULL;
+    while (root != NULL) {
+        if (root->key == x)
+            return root;
+        else if (x > root->key)
+            root = root->right;
+        else {
+            res = root;
+            root = root->left;
+        }
+    }
+    return res;
+}
+
 
 int main () {
     // Node *root = new Node(30);
@@ -236,6 +254,13 @@ int main () {
     root = insertBST_R(root, 2);
     levelOrderTraversal(root);
 
-    root = BSTdelete(root, 50);
-    levelOrderTraversal(root);
+    // root = BSTdelete(root, 50);
+    // levelOrderTraversal(root);
+
+    // Node* fNode =  BSTfloor(root, 17);
+    // cout << fNode->key << endl;
+
+    // Node* cNode = BSTceil(root, 64);
+    // cout << cNode->key << endl;
+
 }
