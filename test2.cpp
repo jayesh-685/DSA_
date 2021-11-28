@@ -1,21 +1,16 @@
-#include "bits/stdc++.h"
+#include <iostream>
 using namespace std;
 
-struct Node
-{
-    int data;
-    struct Node* left;
-    struct Node* right;
-    
-    Node(int x){
-        data = x;
-        left = right = NULL;
-    }
-};
+int main() {
+	// your code goes here
+	int a, b, c;
+	cin >> a >> b >> c;
 
-//Function to return the level order traversal line by line of a tree.
-vector<vector<int>> levelOrder(Node* node)
-{
-    vector <vector <int>> ans;
-    
+	if (a>=b && a>=c)
+		cout << a << endl;
+	else if (b>=a && b>=c)
+		cout << b << endl;
+	else
+		cout << c << endl;
+	return 0;
 }
