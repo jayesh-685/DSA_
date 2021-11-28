@@ -17,6 +17,7 @@ Arr[(2*i)+2]	Returns the right child node
 */
 
 class myHeap {
+    public:
     int* arr;
     int size;
     int capacity;
@@ -38,6 +39,8 @@ class myHeap {
         int element = size;
         arr[size++] = x;
 
+        cout << size << endl;
+
         while (element != 0) {
             int parent = getParent(element);
             if (arr[element] < arr[parent])
@@ -48,8 +51,22 @@ class myHeap {
             }
         }
     }
+
+    void traverse () {
+        for (int i=0; i<size; i++)
+            cout << arr[i] << " ";
+        cout << endl;
+    }
 };
 
 int main () {
+    myHeap h (5);
+    h.insert(18);
+    h.insert(3);
+    h.insert(46);
+    h.insert(12);
+    h.insert(7);
+
+    h.traverse();
 
 }
