@@ -421,16 +421,75 @@ int maxWidth(Node *root)
 // construct a tree from its inorder and preorder traversal
 // to construct a tree, we NEED inorder and any other traversal
 
+Node* searchBT (Node* root, int x) {
+    if (root == NULL)
+        return NULL;
+    if (root->key == x)
+        return root;
+    Node* left = searchBT(root->left, x);
+    if (left != NULL)
+        return left;
+    Node* right = searchBT(root->right, x);
+    return right;
+}
+
+// find least common ancestor of two nodes
+// iterative solution: (mine)
+// not the most efficient
+
+// Node* findLCA (Node* root, int x1, int x2) {
+//     while (root != NULL) {
+//         if (searchBT(root->left, x1)) {
+//             if (searchBT(root->left, x2))
+//                 root = root->left;
+//             else if (searchBT(root->right, x2))
+//                 return root;
+//             else
+//                 return NULL;
+//         } else if (searchBT(root->right, x1)) {
+//             if (searchBT(root->right, x2))
+//                 root = root->right;
+//             else if (searchBT(root->left, x2))
+//                 return root;
+//             else
+//                 return NULL;
+//         } else {
+//             return NULL;
+//         }
+//     }
+// }
+
+
+// recursive approach
+// we traverse the tree and at the same time find x1 and x2
+// if we find x1 in left subtree and x2 in right subtree or vice versa then we have found the lca
+// this approach doesn't work if only one of the nodes is present as in that case lca doesn't exist so we should be returning NULL but we return the node that we find in the tree
+Node* findLCA (Node* root, int x1, int x2) {
+
+    if (root==NULL || root->key==x1 || root->key==x2)
+        return root;
+    
+    Node* lca1 = findLCA(root->left, x1, x2);
+    Node* lca2 = findLCA(root->right, x1, x2);
+
+    if (lca1!=NULL && lca2!=NULL)
+        return root;
+    else if (lca1 != NULL)
+        return lca1;
+    else
+        return lca2;
+}
+
 int main()
 {
     Node *root = new Node(30);
     root->left = new Node(12);
     root->right = new Node(18);
     root->left->left = new Node(6);
-    root->left->right = new Node(6);
-    root->right->left = new Node(6);
-    root->right->right = new Node(12);
-    root->left->left->left = new Node(6);
+    root->left->right = new Node(7);
+    root->right->left = new Node(2);
+    root->right->right = new Node(14);
+    root->left->left->left = new Node(5);
     //postorderTraverse(root);
     //cout << getHeight(root) << endl;
     // printNodesK(root, 2);
@@ -441,5 +500,6 @@ int main()
     //leftViewRecursive(root);
     //cout << childrenSum(root);
     //cout << isBalanced2(root);
-    cout << maxWidth(root) << endl;
+    Node* LCA = findLCA(root, 14, 67);
+    cout << LCA->key << endl;
 }
