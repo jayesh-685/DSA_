@@ -480,6 +480,40 @@ Node* findLCA (Node* root, int x1, int x2) {
         return lca2;
 }
 
+// find path to a node
+
+// vector <int> findPath (Node* root, vector <int> &v, int x) {
+//     if (root == NULL)
+//         return v;
+//     if (root->key == x) {
+//         v.push_back(root->key);
+//         return v;
+//     }
+//     v.push_back(root->key);
+//     findPath(root->left, v, x);
+//     findPath(root->right, v, x);
+//     if (v[v.size()-1] == root->key)
+//         v.pop_back();
+//     return v;
+// }
+
+bool findPath (Node* root, vector <int> &v, int x) {
+    if (root == NULL)
+        return false;
+    
+    v.push_back(root->key);
+
+    if (root->key == x)
+        return true;
+
+    if (findPath(root->left, v, x) || findPath(root->right, v, x))
+        return true;
+
+    v.pop_back();
+    return false;
+}
+
+
 int main()
 {
     Node *root = new Node(30);
@@ -500,6 +534,10 @@ int main()
     //leftViewRecursive(root);
     //cout << childrenSum(root);
     //cout << isBalanced2(root);
-    Node* LCA = findLCA(root, 14, 67);
-    cout << LCA->key << endl;
+    // Node* LCA = findLCA(root, 14, 67);
+    // cout << LCA->key << endl;
+    vector <int> v;
+    cout << findPath(root, v, 5);
+    for (auto x: v)
+        cout << x << " ";
 }
