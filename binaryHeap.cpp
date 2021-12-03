@@ -59,14 +59,24 @@ class myHeap {
     }
 };
 
-int main () {
-    myHeap h (5);
-    h.insert(18);
-    h.insert(3);
-    h.insert(46);
-    h.insert(12);
-    h.insert(7);
+void heapify (myHeap* h) {
+    
+}
 
+int main () {
+    myHeap h (10);
+    // h.insert(18);
+    // h.insert(3);
+    // h.insert(46);
+    // h.insert(12);
+    // h.insert(7);
+
+    int myArr[] = {40, 20, 30, 35, 25, 80, 32, 100, 70, 60};
+    h.arr = myArr;
+    h.size = 10;
+
+    h.traverse();
+    heapify(&h);
     h.traverse();
 
 }

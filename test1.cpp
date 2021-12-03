@@ -64,51 +64,52 @@ void levelOrderTraversal(TreeNode *root)
 // }
 
 
-    vector <TreeNode*> v;
-    void inOrderTraversal (TreeNode* root) {
-        if (root == NULL)
-            return;
-        inOrderTraversal(root->left);
-        v.push_back(root);
-        inOrderTraversal(root->right);
+bool checkValid (int currLevel, vector <int> &v) {
+    bool ans = true;
+    if (currLevel%2 == 0) {
+        for (int i=0; i<v.size()-1; i++) {
+            if (v[i]%2 == 0)
+                return false;
+            if (v[i] >= v[i+1])
+                return false;
+        }
+        if (v[v.size()-1]%2 == 0)
+            return false;
+        return true;
+    } else {
+        for (int i=0; i<v.size()-1; i++) {
+            if (v[i]%2 == 1)
+                return false;
+            if (v[i] <= v[i+1])
+                return false;
+        }
+        if (v[v.size()-1]%2 == 1)
+            return false;
+        return true;
     }
-    
-    void recoverTree(TreeNode* root) {
-        TreeNode* first = NULL;
-        TreeNode* second = NULL;
-        TreeNode* third = NULL;
-        inOrderTraversal(root);
-        for (int i=1; i<v.size(); i++) {
-            cout << "Hello" << endl;
-            if (v[i]->val < v[i-1]->val) {
-                if (first == NULL) {
-                    first = v[i-1];
-                    second = v[i];
-                    cout << "Found first and second" << endl;
-                }
-                else
-                    third = v[i];
-            }
+}
+bool isEvenOddTree(TreeNode* root) {
+    if (root == NULL)
+        return true;
+    bool ans = true;
+    int currLevel = 0;
+    queue <TreeNode*> q;
+    q.push(root);
+    while (ans && !q.empty()) {
+        vector <int> v; 
+        for (int i=v.size(); i>0; i--) {
+            TreeNode* curr = q.front();
+            q.pop();
+            if (curr->left != NULL) q.push(curr->left);
+            if (curr->right != NULL) q.push(curr->right);
+            v.push_back(curr->val);
         }
-        if (third == NULL) {
-            int temp = first->val;
-            first->val = second->val;
-            second->val = temp;
-        }
-        else {
-            int temp = first->val;
-            first->val = third->val;
-            third->val = temp;
-        }
+        ans = checkValid(currLevel, v);
+        currLevel++;
     }
-int main () {
+    return ans;
+}    
 
-    TreeNode* root = new TreeNode (3);
-    root->left = new TreeNode (1);
-    root->right = new TreeNode (4);
-    root->right->left = new TreeNode (2);
-    levelOrderTraversal(root);
-    recoverTree(root);
-    levelOrderTraversal(root);
-    return 0;
+int main () {
+    
 }
