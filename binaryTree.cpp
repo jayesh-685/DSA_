@@ -436,6 +436,7 @@ Node* treeToDLL (Node* root) {
     treeToDLL(root->right);
     return head;
 }
+// O(N) O(H)
 
 void traverse (Node* head) {
     while (head != NULL) {
