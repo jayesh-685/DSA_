@@ -418,6 +418,33 @@ int maxWidth(Node *root)
 
 // convert binary tree to doubly linked list, use left pointer as prev and right as next, use inorder traversal to determine order of list, use the space already allocated for tree
 
+// we use inorder traversal to solve it, we also maintain a prev pointer to connect the two nodes
+
+Node* previous = NULL;
+Node* treeToDLL (Node* root) {
+    if (root == NULL)
+        return root;
+    Node* head = treeToDLL(root->left);
+    if (previous == NULL)
+        head = root;
+    else {
+        root->left = previous;
+        previous->right = root;
+    }
+    previous = root;
+
+    treeToDLL(root->right);
+    return head;
+}
+
+void traverse (Node* head) {
+    while (head != NULL) {
+        cout << head->key << endl;
+        head = head->right;
+    }
+    cout << endl;
+}
+
 // construct a tree from its inorder and preorder traversal
 // to construct a tree, we NEED inorder and any other traversal
 
@@ -536,8 +563,11 @@ int main()
     //cout << isBalanced2(root);
     // Node* LCA = findLCA(root, 14, 67);
     // cout << LCA->key << endl;
-    vector <int> v;
-    cout << findPath(root, v, 5);
-    for (auto x: v)
-        cout << x << " ";
+    // vector <int> v;
+    // cout << findPath(root, v, 5 );
+    // for (auto x: v)
+    //     cout << x << " ";
+
+    Node* head = treeToDLL(root);
+    traverse(head);
 }
