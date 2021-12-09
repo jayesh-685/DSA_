@@ -541,6 +541,29 @@ bool findPath (Node* root, vector <int> &v, int x) {
     return false;
 }
 
+void spiralTraversal (Node* root) {
+    if (root == NULL)
+        return;
+    stack <Node*> s1, s2;
+    int level = 1;
+    s1.push(root);
+    while (!s1.empty() && !s2.empty()) {
+        if (level%2 == 0) {
+            Node* temp = s1.top();
+            s1.pop();
+            if (temp->left != NULL) s2.push(temp->left);
+            if (temp->right != NULL) s2.push(temp->right);
+            cout << temp->key << " ";
+        } else {
+            Node* temp = s2.top();
+            s2.pop();
+            if (temp->right != NULL) s2.push(temp->right);
+            if (temp->left != NULL) s2.push(temp->left);
+            cout << temp->key << " ";
+        }
+    }
+}
+
 
 int main()
 {
