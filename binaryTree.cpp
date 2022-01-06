@@ -545,36 +545,39 @@ void spiralTraversal (Node* root) {
     if (root == NULL)
         return;
     stack <Node*> s1, s2;
-    int level = 1;
+    int level = 0;
     s1.push(root);
-    while (!s1.empty() && !s2.empty()) {
-        if (level%2 == 0) {
-            Node* temp = s1.top();
-            s1.pop();
-            if (temp->left != NULL) s2.push(temp->left);
-            if (temp->right != NULL) s2.push(temp->right);
-            cout << temp->key << " ";
-        } else {
-            Node* temp = s2.top();
-            s2.pop();
-            if (temp->right != NULL) s2.push(temp->right);
-            if (temp->left != NULL) s2.push(temp->left);
-            cout << temp->key << " ";
+    while (!s1.empty() || !s2.empty()) {
+        int i = s1.size() == 0 ? s2.size() : s1.size();
+        while (i--) {
+            if (level%2 == 0) {
+                Node* temp = s1.top();
+                s1.pop();
+                if (temp->left != NULL) s2.push(temp->left);
+                if (temp->right != NULL) s2.push(temp->right);
+                cout << temp->key << " ";
+            } else {
+                Node* temp = s2.top();
+                s2.pop();
+                if (temp->right != NULL) s2.push(temp->right);
+                if (temp->left != NULL) s2.push(temp->left);
+                cout << temp->key << " ";
+            }
         }
+        level++;
     }
 }
 
 
 int main()
 {
-    Node *root = new Node(30);
-    root->left = new Node(12);
-    root->right = new Node(18);
-    root->left->left = new Node(6);
-    root->left->right = new Node(7);
-    root->right->left = new Node(2);
-    root->right->right = new Node(14);
-    root->left->left->left = new Node(5);
+    Node *root = new Node(1);
+    root->left = new Node(2);
+    root->right = new Node(3);
+    root->left->left = new Node(4);
+    root->left->right = new Node(5);
+    root->right->left = new Node(6);
+    root->right->right = new Node(7);
     //postorderTraverse(root);
     //cout << getHeight(root) << endl;
     // printNodesK(root, 2);
@@ -592,6 +595,7 @@ int main()
     // for (auto x: v)
     //     cout << x << " ";
 
-    Node* head = treeToDLL(root);
-    traverse(head);
+    // Node* head = treeToDLL(root);
+    // traverse(head);
+    spiralTraversal(root);
 }

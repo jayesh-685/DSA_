@@ -47,35 +47,6 @@ bool bstSearchI (Node* root, int x) {
 // O(H) O(1)    so it is better than the recursive solution
 // time complexity is best when tree is balanced
 
-// my way
-/* Node* insertBST_I_I (Node* root, int x) {
-    Node* temp = new Node (x);
-    if (root == NULL) {
-        root = temp;
-    }
-
-    while (true) {
-        if (root->key == x) {
-            break;
-        } else if (x > root->key) {
-            if (root->right == NULL) {
-                root->right = temp;
-                break;
-            }
-            else
-                root = root->right;
-        } else {
-            if (root->left == NULL) {
-                root->left = temp;
-                break;
-            }
-            else
-                root = root->left;
-        }
-    }
-    return root;
-} */
-
 Node* insertBST_I (Node* root, int x) {
     Node* temp = new Node (x);
 
