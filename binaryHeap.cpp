@@ -33,17 +33,16 @@ class myHeap {
     int getParent (int i) { return (i-1)/2; }
 
     void insert (int x) {
-        if (size == capacity)
+        if (size == capacity) {
             cout << "Heap is full" << endl;
             return;
+        }
         int element = size;
         arr[size++] = x;
 
-        cout << size << endl;
-
         while (element != 0) {
             int parent = getParent(element);
-            if (arr[element] < arr[parent])
+            if (arr[element] > arr[parent])
                 break;
             else {
                 swap(arr[element], arr[parent]);
@@ -57,26 +56,44 @@ class myHeap {
             cout << arr[i] << " ";
         cout << endl;
     }
+
+    // compare parent's value, left child's value and right child's value, the minimum of these 3 values should be the parent's value. If it isn't, swap the parent's value with the minimum value and recursively call the function for the minimum value child
+    // you will be the given the index of the node which may defiy the heap properties
+    void heapify (int i) {
+        int left = getLeft(i), right = getRight(i);
+        int smallest = i;
+        if (left < size && arr[left] < arr[smallest])
+            smallest = left;
+        if (right < size && arr[right] < arr[smallest])
+            smallest = right;
+        if (smallest != i) {
+            swap(arr[i], arr[smallest]);
+            heapify(smallest);
+        }
+    } // O(H) H is log(n)
+    // requires O(H) extra space
 };
 
-void heapify (myHeap* h) {
-    
-}
+
 
 int main () {
     myHeap h (10);
-    // h.insert(18);
+    // h.insert(1);
     // h.insert(3);
-    // h.insert(46);
-    // h.insert(12);
+    // h.insert(4);
+    // h.insert(5);
+    // h.insert(6);
     // h.insert(7);
+    // h.insert(2);
+
+    // cout << h.size << endl;
 
     int myArr[] = {40, 20, 30, 35, 25, 80, 32, 100, 70, 60};
     h.arr = myArr;
     h.size = 10;
 
     h.traverse();
-    heapify(&h);
+    h.heapify(0);
     h.traverse();
 
 }
