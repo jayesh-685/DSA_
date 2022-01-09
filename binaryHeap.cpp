@@ -72,9 +72,23 @@ class myHeap {
         }
     } // O(H) H is log(n)
     // requires O(H) extra space
+
+
+    // remove the minimum element of the heap
+    // delete it, then replace it with the last element and then heapify
+    int extractMin () {
+        if (size == 0)
+            return INT_MAX;
+        if (size == 1) {
+            size--;
+            return arr[0];
+        }
+        swap(arr[0], arr[size-1]);
+        size--;
+        heapify(0);
+        return arr[size];
+    }
 };
-
-
 
 int main () {
     myHeap h (10);
@@ -94,6 +108,9 @@ int main () {
 
     h.traverse();
     h.heapify(0);
+    h.traverse();
+
+    cout << h.extractMin() << endl;
     h.traverse();
 
 }
