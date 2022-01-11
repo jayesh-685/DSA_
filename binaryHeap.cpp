@@ -97,6 +97,13 @@ class myHeap {
             swap(arr[getParent(i)], arr[i]);
             i = getParent(i);
         }
+    } // O(log n)
+
+    // replace the node to be deleted with the last node and then call heapify operation with index i
+    void deleteNode (int i) {
+        arr[i] = arr[size-1];
+        size--;
+        heapify(i);
     }
 };
 
