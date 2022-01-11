@@ -88,6 +88,16 @@ class myHeap {
         heapify(0);
         return arr[size];
     }
+
+    // given an index i, decrease its value to val and then fix the binary tree
+    // just update the value and then keep on swapping with parent till it reaches correct position
+    void decreaseKey (int i, int val) {
+        arr[i] = val;
+        while (i != 0 && arr[getParent(i)] > arr[i]) {
+            swap(arr[getParent(i)], arr[i]);
+            i = getParent(i);
+        }
+    }
 };
 
 int main () {
