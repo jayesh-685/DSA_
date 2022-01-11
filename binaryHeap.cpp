@@ -105,6 +105,19 @@ class myHeap {
         size--;
         heapify(i);
     }
+
+    // given an array, build a binary heap
+    // brute force way is to call heapify for all elements
+    // Heapify a single node takes O(log N) time complexity where N is the total number of Nodes. Therefore, building the entire Heap will take N heapify operations and the total time complexity will be O(N*logN).
+    // since leaf nodes are already heapified so start from right most non leaf node and go back from there.
+    // if no of nodes = n, index of last node = n-1, parent of last node (which is the right most non leaf node) = (i-1)/2 = (n-1-1)/2 = (n-2)/2
+    void buildHeap () {
+        for (int i=(size-2)/2; i>=0; i--)
+            heapify(i);
+    }
+    // O(n); time complexity calculation involves maths, check video
+
+    
 };
 
 int main () {
