@@ -166,4 +166,30 @@ int main () {
     cout << h.extractMin() << endl;
     h.traverse();
 
+    // priority queue stl
+    // by default max heap is used
+    priority_queue <int> pq;
+    pq.push(10);
+    pq.push(15);
+    pq.push(5);
+    cout<<pq.size()<<" ";
+    cout<<pq.top()<<" ";
+    while(pq.empty()==false){
+        cout<<pq.top()<<" ";
+        pq.pop();
+    }
+
+    // syntax for priority queue with min heap
+    // first argument is data type, second argument is the underlying structure and the third argument is the comparison function.
+    priority_queue <int, vector <int>, greater<int>> pq1;
+
+    // priority queue using existing array
+    int arr[] = {10, 5, 15};
+    priority_queue <int> pq2 (arr, arr+3);
+    // arr+3 instead of +2 because when we use v.end() it returns pointer to element beyond the last element
+    vector <int> v = {4, 3, 6};
+    priority_queue <int> pq3 (v.begin(), v.end());
+
+    // if we create a priority queue for a user defined data structure such as a class we also need to overload comparison operator and provide it as argument
+
 }
