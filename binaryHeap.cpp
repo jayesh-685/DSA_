@@ -37,17 +37,12 @@ class myHeap {
             cout << "Heap is full" << endl;
             return;
         }
-        int element = size;
+        int i = size;
         arr[size++] = x;
 
-        while (element != 0) {
-            int parent = getParent(element);
-            if (arr[element] > arr[parent])
-                break;
-            else {
-                swap(arr[element], arr[parent]);
-                element = parent;
-            }
+        while (i != 0 && arr[getParent(i)] > arr[i]) {
+            swap(arr[getParent(i)], arr[i]);
+            i = getParent(i);
         }
     }
 

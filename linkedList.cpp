@@ -10,24 +10,15 @@ struct Node{
     }
 };
 
+
 void traverse (Node *head) {
-    Node *curr = head;
-	while (curr != NULL) {
-		cout << curr->data << " ";
-		curr = curr->next;
-	}
+    while (head != NULL) {
+        cout << head->data << " ";
+        head = head->next;
+    }
     cout << endl;
 }
 
-// output will be same even if use the below code and also linked list won't be changed
-/*
-void traverse (Node *head) {
-    while (head != NULL) {
-        cout << head->data << endl;
-        head = head->next;
-    }
-}
-*/
 
 void recursionTraverse (Node *head) {
     if (head == NULL)

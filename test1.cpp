@@ -1,14 +1,25 @@
-#include "bits/stdc++.h"
+// C++ implementation of the approach
+#include <bits/stdc++.h>
 using namespace std;
 
-int main () {
-    stack <int> s1;
-    s1.push(5);
-    s1.push(10);
-    s1.push(15);
+// Function to find
+// minimum number of nodes
+int AVLnodes(int height)
+{
+	// Base Conditions
+	if (height == 0)
+		return 1;
+	else if (height == 1)
+		return 2;
 
-    stack <int> s2;
-    s2 = s1;
+	// Recursive function call
+	// for the recurrence relation
+	return (1 + AVLnodes(height - 1) + AVLnodes(height - 2));
+}
 
-    cout << s2.top() << endl;
+// Driver Code
+int main()
+{
+	int H = 5;
+	cout << AVLnodes(H) << endl;
 }
