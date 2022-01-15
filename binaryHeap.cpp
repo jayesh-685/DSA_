@@ -143,6 +143,29 @@ class myHeap {
     }
 };
 
+// sort a k-sorted array
+// in a k sorted array, an element at index i in the original array will be present b/w the indices i-k to i+k (both inclusive) in the sorted array
+// maintain a min heap for elements 0 to k (since the minimum element will be from the elements till index k in the original array)
+// pick the element at the top of the heap, insert it at index 0, increment index, add the k+1 element in the heap and continue
+
+void kSortedArray (int* arr, int n, int k) {
+    priority_queue <int, vector<int>, greater<int>> pq;
+    for (int i=0; i<=k; i++)
+        pq.push(arr[i]);
+    int index = 0; // to know where to insert the element
+
+    for (int i=k+1; k<n; k++) {
+        arr[index++] = pq.top();
+        pq.pop();
+        pq.push(arr[i]);
+    }
+
+    while (!pq.empty()) {
+        arr[index++] = pq.top();
+        pq.pop();
+    }
+}
+
 int main () {
     myHeap h (10);
     // h.insert(1);
