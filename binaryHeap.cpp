@@ -188,7 +188,34 @@ void kLargestElements (int* arr, int n, int k) {
     }
 }
 // if we had converted the array to a max heap and then extracted the top k elements then the time complexity would have been O(n + klogn)
-// when using a min heap time complexity is O(k + (n-k)logk) (compare it by selecting values of k like 1, 2 or n-1, n etc)
+// when using a min heap time complexity is O(k + (n-k)logk) (compare it by selecting small values of k so that it can be ignored or large values of k like n)
+
+
+// given an integer x and an array, print the k closest elements to x in the array
+// create a priority queue of pair of diff between arr[i] and x and the index of arr[i]
+// then use the same approach as k largest element except this time use it to find elements with smallest difference
+void kClosestElements (int* arr, int n, int k, int x) {
+    priority_queue <pair <int, int>> maxHeap;
+
+    // O(klogk)
+    for (int i=0; i<k; i++) 
+        maxHeap.push({abs(arr[i]-x), i});
+
+    // O((n-k)logk)
+    for (int i=k; i<n; i++) {
+        if (abs(arr[i]-x) < maxHeap.top().first) {
+            maxHeap.pop();
+            maxHeap.push({abs(arr[i]-x), i});
+        }
+    }
+
+    // O(klogk)
+    while (!maxHeap.empty()) {
+        cout << arr[maxHeap.top().second] << " ";
+        maxHeap.pop();
+    }
+}
+// O(nlogk)
 
 int main () {
     // myHeap h (10);
@@ -239,7 +266,10 @@ int main () {
 
     // if we create a priority queue for a user defined data structure such as a class we also need to overload comparison operator and provide it as argument
 
-    int arr[] = {1, 2, 3, 4, 5, 6};
-    kLargestElements(arr, 6, 3);
+    /* int arr[] = {1, 2, 3, 4, 5, 6};
+    kLargestElements(arr, 6, 3); */
+
+    int arr[] = {20, 40, 5, 100, 150};
+    kClosestElements(arr, 5, 3, 100);
 
 }
