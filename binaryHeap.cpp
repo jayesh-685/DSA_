@@ -217,6 +217,47 @@ void kClosestElements (int* arr, int n, int k, int x) {
 }
 // O(nlogk)
 
+struct triplet {
+    int val, arrPos, elementPos;
+    triplet (int v, int a, int e) {
+        val = v; arrPos = a; elementPos = e;
+    }
+};
+
+struct myCompare {
+    bool operator () (triplet t1, triplet t2) {
+        return t1.val > t2.val;
+    }
+};
+
+// given k sorted arrays, merge them into a single array
+/* Create a min Heap and insert the first element of all k arrays.
+Run a loop until the size of MinHeap is greater than zero.
+Remove the top element of the MinHeap and print the element.
+Now insert the next element from the same array in which the removed element belonged. */
+// to keep track of which array is the minimum element from and index of new element to be added to the heap we creat a struct triplet
+void mergeKSortedArray (vector <vector <int>> v) {
+    vector <int> ans;
+    priority_queue <triplet, vector <triplet>, myCompare> minHeap;
+
+    for (int i=0; i<v.size(); i++) 
+        minHeap.push(triplet(v[i][0], i, 0));
+    
+    while (!minHeap.empty()) {
+        triplet top = minHeap.top();
+        minHeap.pop();
+        ans.push_back(top.val);
+        int ap = top.arrPos, ep = top.elementPos;
+        if (ep+1 < v[ap].size()) 
+            minHeap.push(triplet(v[ap][ep+1], ap, ep+1));
+    }
+
+    for (auto x: ans)
+        cout << x << " ";
+    cout << endl;
+}
+// O(nkLogk), n is the max no of elements in any array
+
 int main () {
     // myHeap h (10);
     // h.insert(1);
@@ -269,7 +310,10 @@ int main () {
     /* int arr[] = {1, 2, 3, 4, 5, 6};
     kLargestElements(arr, 6, 3); */
 
-    int arr[] = {20, 40, 5, 100, 150};
-    kClosestElements(arr, 5, 3, 100);
+    // int arr[] = {20, 40, 5, 100, 150};
+    // kClosestElements(arr, 5, 3, 100);
+
+    vector <vector <int>> v = {{10, 20, 30}, {5, 15}, {1, 9, 11, 18}};
+    mergeKSortedArray(v);
 
 }
