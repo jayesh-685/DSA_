@@ -144,7 +144,7 @@ class myHeap {
 };
 
 // sort a k-sorted array
-// in a k sorted array, an element at index i in the original array will be present b/w the indices i-k to i+k (both inclusive) in the sorted array
+// in a k sorted array, an element at index i in the original array will be present b/w the indices i-k and i+k (both inclusive) in the sorted array
 // maintain a min heap for elements 0 to k (since the minimum element will be from the elements till index k in the original array)
 // pick the element at the top of the heap, insert it at index 0, increment index, add the k+1 element in the heap and continue
 
@@ -164,10 +164,34 @@ void kSortedArray (int* arr, int n, int k) {
         arr[index++] = pq.top();
         pq.pop();
     }
+} // time complexity ??
+
+// given an array, print the k largest elements (not necessarily in increasing order)
+// make a min heap and add the first k elements to it
+// start traversing from the (k+1)th element and if it is greater than the root of min heap, pop it and add the k+1 th element to the heap
+
+void kLargestElements (int* arr, int n, int k) {
+    priority_queue <int, vector <int>, greater<int>> pq;
+    for (int i=0; i<k; i++)
+        pq.push(arr[i]);
+
+    for (int i=k; i<n; i++) {
+        if (arr[i] > pq.top()) {
+            pq.pop();
+            pq.push(arr[i]);
+        }
+    }
+
+    while (!pq.empty()) {
+        cout << pq.top() << " ";
+        pq.pop();
+    }
 }
+// if we had converted the array to a max heap and then extracted the top k elements then the time complexity would have been O(n + klogn)
+// when using a min heap time complexity is O(k + (n-k)logk) (compare it by selecting values of k like 1, 2 or n-1, n etc)
 
 int main () {
-    myHeap h (10);
+    // myHeap h (10);
     // h.insert(1);
     // h.insert(3);
     // h.insert(4);
@@ -178,20 +202,20 @@ int main () {
 
     // cout << h.size << endl;
 
-    int myArr[] = {40, 20, 30, 35, 25, 80, 32, 100, 70, 60};
-    h.arr = myArr;
-    h.size = 10;
+    // int myArr[] = {40, 20, 30, 35, 25, 80, 32, 100, 70, 60};
+    // h.arr = myArr;
+    // h.size = 10;
 
-    h.traverse();
-    h.heapify(0);
-    h.traverse();
+    // h.traverse();
+    // h.heapify(0);
+    // h.traverse();
 
-    cout << h.extractMin() << endl;
-    h.traverse();
+    // cout << h.extractMin() << endl;
+    // h.traverse();
 
     // priority queue stl
     // by default max heap is used
-    priority_queue <int> pq;
+    /* priority_queue <int> pq;
     pq.push(10);
     pq.push(15);
     pq.push(5);
@@ -200,19 +224,22 @@ int main () {
     while(pq.empty()==false){
         cout<<pq.top()<<" ";
         pq.pop();
-    }
+    } */
 
     // syntax for priority queue with min heap
     // first argument is data type, second argument is the underlying structure and the third argument is the comparison function.
-    priority_queue <int, vector <int>, greater<int>> pq1;
+    /* priority_queue <int, vector <int>, greater<int>> pq1;
 
     // priority queue using existing array
     int arr[] = {10, 5, 15};
     priority_queue <int> pq2 (arr, arr+3);
     // arr+3 instead of +2 because when we use v.end() it returns pointer to element beyond the last element
     vector <int> v = {4, 3, 6};
-    priority_queue <int> pq3 (v.begin(), v.end());
+    priority_queue <int> pq3 (v.begin(), v.end()); */
 
     // if we create a priority queue for a user defined data structure such as a class we also need to overload comparison operator and provide it as argument
+
+    int arr[] = {1, 2, 3, 4, 5, 6};
+    kLargestElements(arr, 6, 3);
 
 }
