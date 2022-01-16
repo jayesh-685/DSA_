@@ -1,16 +1,10 @@
-#include <iostream>
+#include "bits/stdc++.h"
 using namespace std;
 
 int main() {
-	// your code goes here
-	int a, b, c;
-	cin >> a >> b >> c;
+	
+	vector <vector <int>> v = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+	cout << v.size();
 
-	if (a>=b && a>=c)
-		cout << a << endl;
-	else if (b>=a && b>=c)
-		cout << b << endl;
-	else
-		cout << c << endl;
 	return 0;
 }
