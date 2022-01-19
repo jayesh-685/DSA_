@@ -258,6 +258,58 @@ void mergeKSortedArray (vector <vector <int>> v) {
 }
 // O(nkLogk), n is the max no of elements in any array
 
+// median from a data stream
+// given a data stream, find median at each point
+// brute force way is to maintain the stream in sorted order using insertion sort while adding a new element
+// O(n^2)
+
+// we use a max heap and a min heap to divide the stream in two parts, one for elements larger than the effective median and one for smaller than the effective median. difference in no of elements in min Heap and max heap is atmost 1. when no of elements in both heaps is equal and we to add one more element we insert it to the left half (maxHeap). when we want to insert num to maxHeap (left half) but the no is larger than right half top then we insert right half top to left half and then insert num to right half and vice versa
+class MedianFinder {
+public:
+    
+    priority_queue <int> maxHeap;
+    priority_queue <int, vector<int>, greater<int>> minHeap;
+    
+    MedianFinder() {
+        
+    }
+    
+    void addNum(int num) {
+        if (maxHeap.size() == 0) {
+            maxHeap.push(num);
+        } else if (maxHeap.size() == minHeap.size()) {
+            if (num <= minHeap.top()) {
+                maxHeap.push(num);
+            } else {
+                maxHeap.push(minHeap.top());
+                minHeap.pop();
+                minHeap.push(num);
+            }
+        } else {
+            if (num >= maxHeap.top()) {
+                minHeap.push(num);
+            } else {
+                minHeap.push(maxHeap.top());
+                maxHeap.pop();
+                maxHeap.push(num);
+            }
+        }
+    }
+    
+    double findMedian() {
+        if (minHeap.size() == maxHeap.size())
+            return (double)(minHeap.top() + maxHeap.top())/2;
+        return maxHeap.top();
+    }
+};
+
+/**
+ * Your MedianFinder object will be instantiated and called as such:
+ * MedianFinder* obj = new MedianFinder();
+ * obj->addNum(num);
+ * double param_2 = obj->findMedian();
+ */
+
 int main () {
     // myHeap h (10);
     // h.insert(1);
@@ -313,7 +365,7 @@ int main () {
     // int arr[] = {20, 40, 5, 100, 150};
     // kClosestElements(arr, 5, 3, 100);
 
-    vector <vector <int>> v = {{10, 20, 30}, {5, 15}, {1, 9, 11, 18}};
+    vector <vector <int>> v = {{1,2,3},{4,5,6},{7,8,9}};
     mergeKSortedArray(v);
 
 }
