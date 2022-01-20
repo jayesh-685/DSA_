@@ -10,3 +10,56 @@ Undirected Graphs: Undirected graphs are such graphs in which the edges are dire
 no of edges in a directed graph = sum of indegrees or sum of out degrees.
 Maximum no of edges in directed graph = v * (v-1) 
 For a undirected graph, sum of degrees is twice the no of edges and maximum no of edges is (v*(v-1)/2) */
+
+// adjacency matrix implementation
+class Graph {
+  private:
+  bool** adjMatrix;
+  int numVertices;
+
+   public:
+  // Initialize the matrix to zero
+  Graph(int numVertices) {
+    this->numVertices = numVertices;
+    adjMatrix = new bool*[numVertices];
+    for (int i = 0; i < numVertices; i++) {
+      adjMatrix[i] = new bool[numVertices];
+      for (int j = 0; j < numVertices; j++)
+        adjMatrix[i][j] = false;
+    }
+  }
+
+  // Add edges
+  void addEdge(int i, int j) {
+    adjMatrix[i][j] = true;
+    adjMatrix[j][i] = true;
+  }
+
+  // Remove edges
+  void removeEdge(int i, int j) {
+    adjMatrix[i][j] = false;
+    adjMatrix[j][i] = false;
+  }
+
+  // Print the martix
+  void toString() {
+    for (int i = 0; i < numVertices; i++) {
+      cout << i << " : ";
+      for (int j = 0; j < numVertices; j++)
+        cout << adjMatrix[i][j] << " ";
+      cout << "\n";
+    }
+  }
+};
+
+int main() {
+  Graph g(4);
+
+  g.addEdge(0, 1);
+  g.addEdge(0, 2);
+  g.addEdge(1, 2);
+  g.addEdge(2, 0);
+  g.addEdge(2, 3);
+
+  g.toString();
+}
