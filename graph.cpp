@@ -9,7 +9,15 @@ Undirected Graphs: Undirected graphs are such graphs in which the edges are dire
 
 no of edges in a directed graph = sum of indegrees or sum of out degrees.
 Maximum no of edges in directed graph = v * (v-1) 
-For a undirected graph, sum of degrees is twice the no of edges and maximum no of edges is (v*(v-1)/2) */
+For a undirected graph, sum of degrees is twice the no of edges and maximum no of edges is (v*(v-1)/2) 
+
+Pros: Representation is easier to implement and follow. Removing an edge takes O(1) time. Queries like whether there is an edge from vertex 'u' to vertex 'v' are efficient and can be done O(1).
+
+finding all vertices adjacent to u: Theta(v)
+finding degree of u: Theta(v)
+
+Cons: Consumes more space O(V^2). Even if the graph is sparse(contains less number of edges), it consumes the same space. Adding a vertex is O(V^2) time.
+*/
 
 // adjacency matrix implementation
 class Graph {
