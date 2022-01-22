@@ -198,6 +198,35 @@ int dfs_dis(vector<int> adj[], int V){
 // O(V+E)
 /* each vertex is enqueued at most once, and hence dequeued at most once. The operations of enqueuing and dequeuing take O(1) time, and so the total time devoted to queue operations is O(V). Because the procedure scans the adjacency list of each vertex only when the vertex is dequeued, it scans each adjacency list at most once. Since the sum of the lengths of all the adjacency lists is Theta(E), the total time spent in scanning adjacency lists is O(E). The overhead for initialization is O(V),and thus the total running time of the BFS procedure is O(V+E). Thus, breadth-first search runs in time linear in the size of the adjacency-list representation of G. */
 
+// shortest path in unweighted graph
+// we use bfs since it traverses graph in shortest path manner
+
+void shortestPathUnweighted (vector <int> adj[], int v, int s) {
+	vector <bool> visited (v, false);
+	queue <int> q;
+	vector <int> distance (v, INT_MAX);
+
+	distance[s] = 0;
+	q.push(s);
+	visited[s] = true;
+
+	while (!q.empty()) {
+		int curr = q.front();
+		q.pop();
+		for (int i: adj[curr]) {
+			if (visited[i] == false) {
+				q.push(i);
+				visited[i] = true;
+				distance[i] = distance[curr] + 1;
+			}
+		}
+	}
+
+	for (int x: distance)
+		cout << x << " ";
+	cout << endl;
+}
+
 int main() {
 	// Graph g(4);
 
@@ -222,6 +251,8 @@ int main() {
 
 	// bfs(adj, V, 0);
 
-	vector <bool> visited (V+1, false);
-	dfs(adj, 0, visited);
+	// vector <bool> visited (V+1, false);
+	// dfs(adj, 0, visited);
+
+	shortestPathUnweighted(adj, V, 0);
 }
