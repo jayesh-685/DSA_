@@ -154,6 +154,49 @@ int bfs_dis (vector <int> adj[], int v) {
 // O(V+E)   // v is also included because of corner case where all vertices are disconnected
 // can find shortes path for unweighted graphs
 
+/* DFS
+The Depth-First Traversal or the DFS traversal of a Graph is used to traverse a graph depth wise. That is, it in this traversal method, we start traversing the graph from a node and keep on going in the same direction as far as possible. When no nodes are left to be traversed along the current path, backtrack to find a new possible path and repeat this process until all of the nodes are visited.
+
+We can implement the DFS traversal algorithm using a recursive approach. While performing the DFS traversal the graph may contain a cycle and the same node can be visited again, so in order to avoid this we can keep track of visited array using an auxiliary array. On each step of the recursion mark, the current vertex visited and call the recursive function again for all the adjacent vertices.
+ */
+
+void dfs (vector <int> adj[], int s, vector <bool> &visited) {
+	cout << s << " ";
+	visited[s] = true;
+	for (int i: adj[s]) {
+		if (visited[i] == false)
+			dfs(adj, i, visited);
+	}
+}
+
+// if graph is disconnected
+void dfs_rec(vector<int> adj[], int s, bool visited[]) 
+{ 	
+    visited[s]=true;
+    cout<< s <<" ";
+    
+    for(int u:adj[s]){
+        if(visited[u]==false)
+            dfs_rec(adj,u,visited);
+    }
+}
+
+int dfs_dis(vector<int> adj[], int V){
+    bool visited[V]; 
+	int count = 0;
+	for(int i = 0;i<V; i++) 
+		visited[i] = false;
+		
+    for(int i=0;i<V;i++){
+        if(visited[i]==false) {
+			count++;
+            dfs_rec(adj,i,visited);
+		}
+    }
+	return count;
+}
+// O(V+E)
+/* each vertex is enqueued at most once, and hence dequeued at most once. The operations of enqueuing and dequeuing take O(1) time, and so the total time devoted to queue operations is O(V). Because the procedure scans the adjacency list of each vertex only when the vertex is dequeued, it scans each adjacency list at most once. Since the sum of the lengths of all the adjacency lists is Theta(E), the total time spent in scanning adjacency lists is O(E). The overhead for initialization is O(V),and thus the total running time of the BFS procedure is O(V+E). Thus, breadth-first search runs in time linear in the size of the adjacency-list representation of G. */
 
 int main() {
 	// Graph g(4);
@@ -170,13 +213,15 @@ int main() {
 	// array of vectors
 	vector<int> adj[V];
 	addEdge(adj, 0, 1);
-	addEdge(adj, 0, 4);
-	addEdge(adj, 1, 2);
+	addEdge(adj, 0, 2);
+	addEdge(adj, 2, 3);
 	addEdge(adj, 1, 3);
 	addEdge(adj, 1, 4);
-	addEdge(adj, 2, 3);
 	addEdge(adj, 3, 4);
 	printGraph(adj, V);
 
-	bfs(adj, V, 0);
+	// bfs(adj, V, 0);
+
+	vector <bool> visited (V+1, false);
+	dfs(adj, 0, visited);
 }
