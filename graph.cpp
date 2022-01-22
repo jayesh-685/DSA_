@@ -227,6 +227,59 @@ void shortestPathUnweighted (vector <int> adj[], int v, int s) {
 	cout << endl;
 }
 
+// detect cycle undirected graph
+// can be done with both dfs and bfs
+/* for every visited vertex ‘v’, if there is an adjacent ‘u’ such that u is already visited and u is not a parent of v, then there is a cycle in the graph. If we don’t find such an adjacent for any vertex, we say that there is no cycle. */
+
+bool detectCycleDFS_rec (vector <int> adj[], int s, int p, vector <bool> visited) {
+	visited[s] = true;
+	for (int i: adj[s]) {
+		if (visited[i] == false) {
+			if (detectCycleDFS_rec(adj, i, s, visited) == true)
+				return true;
+		} else if (i != p) {
+			return true;
+		}
+	}
+	return false;
+}
+
+bool detectCycleDFS (vector <int> adj[], int v) {
+	vector <bool> visited (v, false);
+	for (int i=0; i<v; i++) {
+		if (!visited[i]) {
+			if (detectCycleDFS_rec(adj, i, -1, visited) == true)
+				return true;
+		}	
+	}
+	return false;
+}
+
+// just maintain a parent array if you want to use bfs
+bool detectCycleBFS (vector <int> adj[], int v, int s) {
+	vector <bool> visited (v, false);
+	vector <int> parent (v, -1);
+	queue <int> q;
+
+	visited[s] = true;
+	q.push(s); 
+
+	while (!q.empty()) {
+		int curr = q.front();
+		q.pop();
+		for (int i: adj[curr]) {
+			if (!visited[i]) {
+				visited [i] = true;
+				q.push(i);
+				parent[i] = curr;
+			} else if (i != parent[curr]) {
+				return true;
+			}
+		}
+		return false;
+	}
+}
+
 int main() {
 	// Graph g(4);
 
