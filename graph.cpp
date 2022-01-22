@@ -60,14 +60,52 @@ class Graph {
   }
 };
 
+/* Adjacency List: Graph can also be implemented using an array of lists. That is every index of the array will contain a complete list. Size of the array is equal to the number of vertices and every index i in the array will store the list of vertices connected to the vertex numbered i. Let the array be array[]. An entry array[i] represents the list of vertices adjacent to the ith vertex. This representation can also be used to represent a weighted graph. The weights of edges can be represented as lists of pairs. Following is the adjacency list representation of the above example undirected graph. */
+/* space required for undirected graph = Theta(V+2*E) and for directed graph Theta(V+E)
+Checking if there is an edge from u to v and removing a edge is Theta(V) operation
+Finding degree of u and adding a edge is a Theta(1) operation
+Finding all adjacent of u is theta(degree(u)) operation */
+
+// adjacency list implementaion
+
+void addEdge(vector<int> adj[], int u, int v)
+{
+	adj[u].push_back(v);
+	adj[v].push_back(u);
+}
+
+void printGraph(vector<int> adj[], int V)
+{
+    for (int v = 0; v < V; ++v)
+    {
+        cout << "\n Adjacency list of vertex "
+             << v << "\n head ";
+        for (auto x : adj[v])
+           cout << "-> " << x;
+        printf("\n");
+    }
+}
+
+
 int main() {
-  Graph g(4);
+	Graph g(4);
 
-  g.addEdge(0, 1);
-  g.addEdge(0, 2);
-  g.addEdge(1, 2);
-  g.addEdge(2, 0);
-  g.addEdge(2, 3);
+	g.addEdge(0, 1);
+	g.addEdge(0, 2);
+	g.addEdge(1, 2);
+	g.addEdge(2, 0);
+	g.addEdge(2, 3);
 
-  g.toString();
+	g.toString();
+
+	int V = 5;
+	vector<int> adj[V];
+	addEdge(adj, 0, 1);
+	addEdge(adj, 0, 4);
+	addEdge(adj, 1, 2);
+	addEdge(adj, 1, 3);
+	addEdge(adj, 1, 4);
+	addEdge(adj, 2, 3);
+	addEdge(adj, 3, 4);
+	printGraph(adj, V);
 }
