@@ -86,19 +86,88 @@ void printGraph(vector<int> adj[], int V)
     }
 }
 
+/* The Breadth First Traversal or BFS traversal of a graph is similar to that of the Level Order Traversal of Trees.
+
+The BFS traversal of Graphs also traverses the graph in levels. It starts the traversal with a given vertex, visits all of the vertices adjacent to the initially given vertex and pushes them all to a queue in order of visiting. Then it pops an element from the front of the queue, visits all of its neighbours and pushes the neighbours which are not already visited into the queue and repeats the process until the queue is empty or all of the vertices are visited.
+
+The BFS traversal uses an auxiliary boolean array say visited[] which keeps track of the visited vertices. That is if visited[i] = true then it means that the i-th vertex is already visited.
+
+Complete Algorithm:
+Create a boolean array say visited[] of size V+1 where V is the number of vertices in the graph.
+Create a Queue, mark the source vertex visited as visited[s] = true and push it into the queue.
+Until the Queue is non-empty, repeat the below steps:
+Pop an element from the queue and print the popped element.
+Traverse all of the vertices adjacent to the vertex poped from the queue.
+If any of the adjacent vertex is not already visited, mark it visited and push it to the queue. */
+
+void bfs (vector <int> adj[], int v, int s) {
+	vector <bool> visited (v+1, false);
+	queue <int> q;
+	q.push(s);
+	visited[s] = true;
+
+	while (!q.empty()) {
+		int curr = q.front();
+		q.pop();
+		cout << curr << " ";
+		for (int x: adj[curr]) {
+			if (visited[x] == false) {
+				visited[x] = true;
+				q.push(x);
+			}
+		}
+	}
+}
+
+// if no source is given and graph may be disconnected
+
+void bfs (vector <int> adj[], int v, int s, vector <bool> &visited) {
+	queue <int> q;
+	q.push(s);
+	visited[s] = true;
+
+	while (!q.empty()) {
+		int curr = q.front();
+		q.pop();
+		cout << curr << " ";
+		for (int x: adj[curr]) {
+			if (visited[x] == false) {
+				visited[x] = true;
+				q.push(x);
+			}
+		}
+	}
+}
+
+// we also calculate no of islands in the graph (no of connected components)
+int bfs_dis (vector <int> adj[], int v) {
+	int count=0;
+	vector <bool> visited (v+1, false);
+	for (int i=0; i<v; i++) {
+		if (visited[i] == false) {
+			count++;
+			bfs(adj, v, i, visited);
+		}
+	}
+	return count;
+}
+// O(V+E)   // v is also included because of corner case where all vertices are disconnected
+// can find shortes path for unweighted graphs
+
 
 int main() {
-	Graph g(4);
+	// Graph g(4);
 
-	g.addEdge(0, 1);
-	g.addEdge(0, 2);
-	g.addEdge(1, 2);
-	g.addEdge(2, 0);
-	g.addEdge(2, 3);
+	// g.addEdge(0, 1);
+	// g.addEdge(0, 2);
+	// g.addEdge(1, 2);
+	// g.addEdge(2, 0);
+	// g.addEdge(2, 3);
 
-	g.toString();
+	// g.toString();
 
 	int V = 5;
+	// array of vectors
 	vector<int> adj[V];
 	addEdge(adj, 0, 1);
 	addEdge(adj, 0, 4);
@@ -108,4 +177,6 @@ int main() {
 	addEdge(adj, 2, 3);
 	addEdge(adj, 3, 4);
 	printGraph(adj, V);
+
+	bfs(adj, V, 0);
 }
