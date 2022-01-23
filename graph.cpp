@@ -347,6 +347,9 @@ void topologicalSort(vector<int> adj[], int V)
     } 
 }
 
+// detect cycle using khan's algorithm:
+// count the no of elements you push in the queue, if the count after executing the complete algorithm is not equal to no of vertices, graph has a loop
+
 int main() {
 	// Graph g(4);
 
