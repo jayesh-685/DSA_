@@ -321,7 +321,7 @@ Decrease in-degree by 1 for all its neighbouring nodes.
 If in-degree of a neighbouring nodes is reduced to zero, then add it to the queue.
 Step 4: Repeat Step 3 until the queue is empty. */
 
-void topologicalSort(vector<int> adj[], int V) 
+void topologicalSortBfs(vector<int> adj[], int V) 
 { 
     vector<int> in_degree(V, 0); 
   
@@ -349,6 +349,31 @@ void topologicalSort(vector<int> adj[], int V)
 
 // detect cycle using khan's algorithm:
 // count the no of elements you push in the queue, if the count after executing the complete algorithm is not equal to no of vertices, graph has a loop
+
+// topological sort using dfs
+/* We can modify DFS to find Topological Sorting of a graph. In DFS, we start from a vertex, we first print it and then recursively call DFS for its adjacent vertices. In topological sorting, we use a temporary stack. We don’t print the vertex immediately, we first recursively call topological sorting for all its adjacent vertices, then push it to a stack. Finally, print contents of the stack. Note that a vertex is pushed to stack only when all of its adjacent vertices (and their adjacent vertices and so on) are already in the stack.  */
+
+void dfsRec (vector <int> adj[], int s, vector <bool> &visited, stack <int> &ans) {
+	visited[s] = true;
+	for (int i: adj[s]) {
+		if (visited[i] == false)
+			dfsRec(adj, i, visited, ans);
+	}
+	ans.push(s);
+}
+void topologicalSortDfs (vector <int> adj[], int v) {
+	vector <bool> visited (v, false);
+	stack <int> ans;
+	for (int i=0; i<v; i++) {
+		if (visited[i] == false)
+			dfsRec(adj, i, visited, ans);
+	}
+
+	while (!ans.empty()) {
+		cout << ans.top() << " ";
+		ans.pop();
+	}
+}
 
 int main() {
 	// Graph g(4);
