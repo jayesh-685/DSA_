@@ -309,6 +309,44 @@ bool detectCycleDirected_dfs (vector <int> adj[], int v) {
 }
 // O(V+E)
 
+/* In computer science, a topological sort or topological ordering of a directed graph is a linear ordering of its vertices such that for every directed edge uv from vertex u to vertex v, u comes before v in the ordering. For instance, the vertices of the graph may represent tasks to be performed, and the edges may represent constraints that one task must be performed before another; in this application, a topological ordering is just a valid sequence for the tasks. Precisely, a topological sort is a graph traversal in which each node v is visited only after all its dependencies are visited. A topological ordering is possible if and only if the graph has no directed cycles, that is, if it is a directed acyclic graph (DAG). Any DAG has at least one topological ordering, */
+
+/* Step-1: Compute in-degree (number of incoming edges) for each of the vertex present in the DAG and initialize the count of visited nodes as 0.
+Step-2: Pick all the vertices with in-degree as 0 and add them into a queue (Enqueue operation)
+Step-3: Remove a vertex from the queue (Dequeue operation) and then. 
+ 
+
+Increment count of visited nodes by 1.
+Decrease in-degree by 1 for all its neighbouring nodes.
+If in-degree of a neighbouring nodes is reduced to zero, then add it to the queue.
+Step 4: Repeat Step 3 until the queue is empty. */
+
+void topologicalSort(vector<int> adj[], int V) 
+{ 
+    vector<int> in_degree(V, 0); 
+  
+    for (int u = 0; u < V; u++) { 
+        for (int x:adj[u]) 
+            in_degree[x]++; 
+    } 
+  
+    queue<int> q; 
+    for (int i = 0; i < V; i++) 
+        if (in_degree[i] == 0) 
+            q.push(i); 
+
+  
+    while (!q.empty()) { 
+        int u = q.front(); 
+        q.pop(); 
+        cout<<u<<" "; 
+  
+        for (int x: adj[u]) 
+            if (--in_degree[x] == 0) 
+                q.push(x); 
+    } 
+}
+
 int main() {
 	// Graph g(4);
 
