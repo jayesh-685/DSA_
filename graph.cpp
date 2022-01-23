@@ -280,6 +280,35 @@ bool detectCycleBFS (vector <int> adj[], int v, int s) {
 	}
 }
 
+// detect cycle in a directed graph usign dfs
+// here we also maintain an additional array to keep track of vertices which are already in the recursion stack and if we visit them again during our recursive call then there is a loop
+
+bool detectCycleDirected_dfsRec (vector <int> adj[], vector <bool> &visited, vector <bool> &rec, int s) {
+	visited[s] = true;
+	rec[s] = true;	// s is pushed to the stack
+
+	for (int i: adj[s]) {
+		if (visited[i] == false && detectCycleDirected_dfsRec(adj, visited, rec, i)) 
+			return true;
+		else if (rec[i] == true) 
+			return true;	
+	}
+	rec[s] = false;	  // popped of the stack, is still marked visited
+	return false;
+}
+
+bool detectCycleDirected_dfs (vector <int> adj[], int v) {
+	vector <bool> visited (v, false);
+	vector <bool> rec (v, false);
+
+	for (int i=0; i<v; i++) {
+		if (visited[i] == false && detectCycleDirected_dfsRec(adj, visited, rec, i))
+			return true;
+	}
+	return false;
+}
+// O(V+E)
+
 int main() {
 	// Graph g(4);
 
