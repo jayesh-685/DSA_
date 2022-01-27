@@ -32,3 +32,27 @@ Proof that first activity is always selected in the optimal solution:
 Consider a set s1, having n elements, which includes first activity and set s2, having m elements, which doesn't include first activity
 if s2 is the better solution, then m > n
 if we exclude the first element of s2 then no of elements in s2 = m-1 and since first element of s1 will always be less than first element of s2, it can be replaced with first element of s1 which means that m-1 + 1 = n i.e m = n which contradicts our assumption */
+
+bool myCompare (pair <int, int> a, pair <int, int> b) {
+    return (a.second < b.second);
+}
+
+int maxActivities (pair<int, int> arr[], int n) {
+    sort(arr, arr+n);
+    int prev = 0;
+    int count = 1;
+    for (int curr=1; curr<n; curr++) {
+        if (arr[curr].first >= arr[prev].second) {
+            prev = curr;
+            count++;
+        }
+    }
+
+    return count;
+}
+
+int main () {
+    pair<int, int> arr[] = {make_pair(12, 25), make_pair(10, 20), make_pair(20, 30)};
+
+    cout << maxActivities(arr, 3);
+}
