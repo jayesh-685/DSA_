@@ -89,26 +89,9 @@ struct compare {
     }
 };
 
-void printHCodes (char arr[], int freq[], int n) {
-    priority_queue <hNode*, vector<hNode*>, compare> pq;
-
-    for (int i=0; i<n; i++) {
-        pq.push(new hNode(arr[i], freq[i]));
-    }
-
-    while (pq.size() > 1) {
-        hNode* left = pq.top();
-        pq.pop();
-        hNode* right = pq.top();
-        pq.pop();
-        hNode* newNode = new hNode('$', left->freq+right->freq, left, right);
-        pq.push(newNode);
-    }
-}
-
 // see video
 void printCodes (hNode* root, string str) {
-    if (root->ch != '&') {
+    if (root->ch != '$') {
         cout << root->ch << " : " << str << endl;
         return;
     }
@@ -117,8 +100,36 @@ void printCodes (hNode* root, string str) {
     printCodes(root->right, str+"1");
 }
 
-int main () {
-    pair<int, int> arr[] = {make_pair(12, 25), make_pair(10, 20), make_pair(20, 30)};
+void printHCodes (char arr[], int freq[], int n) {
+    priority_queue <hNode*, vector<hNode*>, compare> pq;
 
-    cout << maxActivities(arr, 3);
+    // O(nlogn)
+    for (int i=0; i<n; i++) {
+        pq.push(new hNode(arr[i], freq[i]));
+    }
+
+    // O(nlogn)
+    while (pq.size() > 1) {
+        hNode* left = pq.top();
+        pq.pop();
+        hNode* right = pq.top();
+        pq.pop();
+        hNode* newNode = new hNode('$', left->freq+right->freq, left, right);
+        pq.push(newNode);
+    }
+
+    printCodes(pq.top(), "");   // theta(n)
+}
+// overall time complexity: O(nLogn)
+// overall space complexity: Theta(n)
+
+
+int main () {
+
+    // pair<int, int> arr[] = {make_pair(12, 25), make_pair(10, 20), make_pair(20, 30)};
+    // cout << maxActivities(arr, 3);
+
+    char arr[] = {'a', 'b', 'c', 'd'};
+    int freq[] = {34, 12, 36, 74};
+    printHCodes(arr, freq, 4);
 }
