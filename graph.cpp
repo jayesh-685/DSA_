@@ -388,6 +388,9 @@ public:
     AdjListNode(int _v, int _w)  { v = _v;  weight = _w;}
     int getV()       {  return v;  }
     int getWeight()  {  return weight; }
+	bool operator > (const AdjListNode &rhs) {
+		return this->weight > rhs.weight;
+	}
 };
  
 // Class to represent a graph using adjacency list representation
@@ -408,6 +411,12 @@ public:
  
     // Finds shortest paths from given source vertex
     void shortestPath(int s);
+
+	// for minimum spanning tree
+	void primsAlgorithm ();
+
+
+	void dijkstra_shortestPath (int s);
 };
  
 Graph::Graph(int V)
@@ -487,6 +496,26 @@ void Graph::shortestPath(int s)
     for (int i = 0; i < V; i++)
         (dist[i] == INT_MAX)? cout << "INF ": cout << dist[i] << " ";
 }
+
+// dijkstra's algorithm
+/* Given a graph and a source vertex in the graph, find the shortest paths from the source to all vertices in the given graph.Dijkstra’s algorithm is very similar to Prim’s algorithm for minimum spanning tree. Like Prim’s MST, we generate a SPT (shortest path tree) with a given source as a root. We maintain two sets, one set contains vertices included in the shortest-path tree, other set includes vertices not yet included in the shortest-path tree. At every step of the algorithm, we find a vertex that is in the other set (set of not yet included) and has a minimum distance from the source.
+Algorithm 
+1) Create a set sptSet (shortest path tree set) that keeps track of vertices included in the shortest-path tree, i.e., whose minimum distance from the source is calculated and finalized. Initially, this set is empty. 
+2) Assign a distance value to all vertices in the input graph. Initialize all distance values as INFINITE. Assign distance value as 0 for the source vertex so that it is picked first. 
+3) While sptSet doesn’t include all vertices 
+….a) Pick a vertex u which is not there in sptSet and has a minimum distance value. 
+….b) Include u to sptSet. 
+….c) Update distance value of all adjacent vertices of u. To update the distance values, iterate through all adjacent vertices. For every adjacent vertex v, if the sum of distance value of u (from source) and weight of edge u-v, is less than the distance value of v, then update the distance value of v. */
+
+void Graph::dijkstra_shortestPath (int s) {
+	vector <int> distance (V, INT_MAX);
+	distance[s] = 0; 
+
+	priority_queue <AdjListNode, vector <AdjListNode>, greater<AdjListNode>> pq;					
+}
+
+// doesn't work for negative weight edges
+// path changes if some amount of weight is added to all edges
 
 int main() {
 	// Graph g(4);
