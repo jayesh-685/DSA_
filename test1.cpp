@@ -1,25 +1,15 @@
-// C++ implementation of the approach
-#include <bits/stdc++.h>
+#include "bits/stdc++.h"
 using namespace std;
 
-// Function to find
-// minimum number of nodes
-int AVLnodes(int height)
-{
-	// Base Conditions
-	if (height == 0)
-		return 1;
-	else if (height == 1)
-		return 2;
+int main () {
+	long long n, m, a;
+	cin >> n >> m >> a;
 
-	// Recursive function call
-	// for the recurrence relation
-	return (1 + AVLnodes(height - 1) + AVLnodes(height - 2));
-}
+	long long p = max(n, m);
+	long long q = min(n, m);
+	long long x = ceil((double)p/a);
+	if (q-a > 0)
+		x += ceil((double)q/a);
 
-// Driver Code
-int main()
-{
-	int H = 5;
-	cout << AVLnodes(H) << endl;
+	cout << x;
 }
