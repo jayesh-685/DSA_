@@ -61,7 +61,59 @@ bool solveMaze (vector<vector<bool>> &matrix) {
     return false;
 }
 
+/* N QUEEN PROBLEM
+check if you can place n queens in a n*n chess board. If yes, print the placement.
+let's say first queen is placed in first column, second in second column and so on. Then one of the permutations of the first n numbers will give the respective row numbers since no two queens can be in the same row or column.
+Start with column 0 and check for each row if it is a valid position. If yes then recursively check for col 1 till column no becomes equal to N*/
+
+bool isSafe (int row, int col, vector<vector<bool>> &cB, int n) {
+    // only one queen is allowed per column so no need to check in the same column, only check in the row and diagonally (upper left and bottom left since right side of the board is empty)
+
+    // checking in row
+    for (int i=0; i<col; i++) 
+        if (cB[row][i])
+            return false;
+    
+    // upper left diagonal
+    for (int i=row, j=col; i>=0 && j>=0; i--, j--) 
+        if (cB[i][j])
+            return false;
+
+    // lower left diagonal
+    for (int i=row, j=col; i<n && j>=0; i++, j--)
+        if (cB[i][j])
+            return false;
+
+    return true;
+}
+
+bool nQueenProblemRec (vector<vector<bool>> &cB, int n, int col) {
+    if (col == n)   return true;
+
+    // now will check for each row
+    for (int row=0; row<n; row++) {
+        if (isSafe(row, col, cB, n)) {
+            cB[row][col] = 1;
+            if (nQueenProblemRec(cB, n, col+1))
+                return true;
+            cB[row][col] = 0;
+        }
+    }
+    return false;
+}
+
+bool nQueenProblem (int n) {
+    vector <vector <bool>> chessBoard (n, vector<bool>(n, false));
+    if (nQueenProblemRec(chessBoard, n, 0)) {
+        printMatrix(chessBoard);
+        return true;
+    }
+    return false;
+}
+
 int main () {
-    vector <vector <bool>> matrix = {{1, 0, 1}, {1, 1, 0}, {0, 1, 1}};
-    solveMaze(matrix);
+    // vector <vector <bool>> matrix = {{1, 0, 1}, {1, 1, 0}, {0, 1, 1}};
+    // solveMaze(matrix);
+
+    cout << nQueenProblem(5);
 }
