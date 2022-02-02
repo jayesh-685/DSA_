@@ -28,6 +28,15 @@ void printMatrix (vector <vector <bool>> ans) {
     }
 }
 
+void printMatrix (vector <vector <int>> ans) {
+    for (int i=0; i<ans.size(); i++) {
+        for (int j=0; j<ans[0].size(); j++) {
+            cout << ans[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
+
 bool checkBounds (int i, int j, int n, int m, vector<vector<bool>> &matrix) {
     return i<n && j<m && matrix[i][j]==1;
 }
@@ -111,9 +120,114 @@ bool nQueenProblem (int n) {
     return false;
 }
 
+bool isSafe (vector <vector <int>> &grid, int i, int j, int n, int x) {
+
+    // row and column
+    for (int k=0; k<n; k++) {
+        if (grid[k][j]==x || grid[i][k]==x)
+            return false;
+    }
+
+    // checking in grid
+    int gridSize = sqrt(n);
+    int r = i - (i%gridSize);
+    int c = j - (j%gridSize);
+
+    for (int p=0; p<gridSize; p++) {
+        for (int q=0; q<gridSize; q++) {
+            if (grid[p+r][q+c] == x)
+                return false;
+        }
+    }
+
+    return true;
+}
+
+/* bool isSafe(vector <vector <int>> board, int row, int col, int N, int num) 
+{ 
+    
+    for (int d = 0; d < N; d++)  
+    { 
+        
+        if (board[row][d] == num) { 
+            return false; 
+        } 
+    } 
+
+    for (int r = 0; r < N; r++)  
+    { 
+            
+        if (board[r][col] == num)  
+        { 
+            return false; 
+        } 
+    }  
+    int s = (int)sqrt(N); 
+    int boxRowStart = row - row % s; 
+    int boxColStart = col - col % s; 
+
+    for (int r = boxRowStart; 
+            r < boxRowStart + s; r++)  
+    { 
+        for (int d = boxColStart; 
+                d < boxColStart + s; d++)  
+        { 
+            if (board[r][d] == num)  
+            { 
+                return false; 
+            } 
+        } 
+    } 
+
+    return true; 
+} */
+
+bool solveSudokuRec (vector <vector <int>> &grid, int n) {
+    int i, j;
+    for (i=0; i<n; i++) {
+        for (j=0; j<n; j++) {
+            if (grid[i][j] == 0)
+                goto finish;
+        }
+    }
+
+    finish:
+    // if we have filled all the cells
+    if (i==n && j==n)
+        return true;
+
+    for (int k=1; k<=n; k++) {
+        if (isSafe(grid, i, j, n, k)) {
+            grid[i][j] = k;
+            if (solveSudokuRec(grid, n))
+                return true;
+            grid[i][j] = 0;
+        }
+    }
+
+    return false;
+}
+
+bool solveSudoku (vector <vector <int>> &grid) {
+    int n = grid.size();
+    if (solveSudokuRec(grid, n)) {
+        printMatrix(grid);
+        return true;
+    }
+    return false;
+}
+
 int main () {
     // vector <vector <bool>> matrix = {{1, 0, 1}, {1, 1, 0}, {0, 1, 1}};
     // solveMaze(matrix);
 
-    cout << nQueenProblem(5);
+    // cout << nQueenProblem(5);
+
+    vector <vector <int>> sudoku = {{1, 0, 3, 0}, 
+                                    {0, 0, 2, 1}, 
+                                    {0, 1, 0, 2}, 
+                                    {2, 4, 0, 0}};
+
+    cout << solveSudoku(sudoku);
+    
 }
