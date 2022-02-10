@@ -20,6 +20,58 @@ int fibo (int n) {
     return memo[n];
 }
 
+// tabulation
+int fib(int n) 
+{ 
+  int f[n+1];   
+  int i; 
+  
+  f[0] = 0; 
+  f[1] = 1; 
+  
+  for (i = 2; i <= n; i++) 
+      f[i] = f[i-1] + f[i-2]; 
+  
+  return f[n]; 
+} 
+
+// longest common subsequence
+// LCA of "AGGTAB" and "GXTXAYB"  is "GTAB"
+// start from end, if both characters are same, call recursively for remaining string by reducing length by 1 for both strings. Else we reduce length of only one string at a time to see if prev character matches with the curr char of the string.
+
+int lca1 (string s1, string s2, int n, int m) {
+    if (!n || !m)
+        return 0;
+    
+    if (s1[n-1] == s2[m-1]) {
+        return 1 + lca1(s1, s2, n-1, m-1);
+    } else {
+        return max(lca1(s1, s2, n-1, m), lca1(s1, s2, n, m-1));
+    }
+}
+
+// dp memoization based solution
+
+vector <vector <int>> memo_lca (1000, vector <int>(1000, -1));
+
+int lca1_dp (string s1, string s2, int n, int m) {
+    if (memo_lca[n][m] != -1)
+        return memo_lca[n][m];
+    
+    if (!n || !m)
+        memo_lca[n][m] = 0;
+    else {
+        if (s1[n-1] == s2[m-1]) {
+            memo_lca[n][m] =  1 + lca1(s1, s2, n-1, m-1);
+        } else {
+            memo_lca[n][m] = max(lca1(s1, s2, n-1, m), lca1(s1, s2, n, m-1));
+        }
+    }
+
+    return memo_lca[n][m];
+
+}
+
 int main () {
     cout << fibo(5) << endl;
 }
