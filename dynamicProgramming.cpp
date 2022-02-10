@@ -39,14 +39,14 @@ int fib(int n)
 // LCA of "AGGTAB" and "GXTXAYB"  is "GTAB"
 // start from end, if both characters are same, call recursively for remaining string by reducing length by 1 for both strings. Else we reduce length of only one string at a time to see if prev character matches with the curr char of the string.
 
-int lca1 (string s1, string s2, int n, int m) {
+int lcs (string s1, string s2, int n, int m) {
     if (!n || !m)
         return 0;
     
     if (s1[n-1] == s2[m-1]) {
-        return 1 + lca1(s1, s2, n-1, m-1);
+        return 1 + lcs(s1, s2, n-1, m-1);
     } else {
-        return max(lca1(s1, s2, n-1, m), lca1(s1, s2, n, m-1));
+        return max(lcs(s1, s2, n-1, m), lcs(s1, s2, n, m-1));
     }
 }
 
@@ -54,7 +54,7 @@ int lca1 (string s1, string s2, int n, int m) {
 
 vector <vector <int>> memo_lca (1000, vector <int>(1000, -1));
 
-int lca1_dp (string s1, string s2, int n, int m) {
+int lcs_dp (string s1, string s2, int n, int m) {
     if (memo_lca[n][m] != -1)
         return memo_lca[n][m];
     
@@ -62,14 +62,35 @@ int lca1_dp (string s1, string s2, int n, int m) {
         memo_lca[n][m] = 0;
     else {
         if (s1[n-1] == s2[m-1]) {
-            memo_lca[n][m] =  1 + lca1(s1, s2, n-1, m-1);
+            memo_lca[n][m] =  1 + lcs_dp(s1, s2, n-1, m-1);
         } else {
-            memo_lca[n][m] = max(lca1(s1, s2, n-1, m), lca1(s1, s2, n, m-1));
+            memo_lca[n][m] = max(lcs_dp(s1, s2, n-1, m), lcs_dp(s1, s2, n, m-1));
         }
     }
 
     return memo_lca[n][m];
 
+}
+
+int lcs (string s1, string s2) {
+    int m = s1.length(), n = s2.length();
+    int dp[m+1][n+1];
+    
+    for(int i=0;i<=m;i++)
+        dp[i][0]=0;
+    
+    for(int j=0;j<=n;j++)
+        dp[0][j]=0;
+        
+    for (int i=1; i<=m; i++) {
+        for (int j=1; j<=n; j++) {
+            if(s1[i-1]==s2[j-1])
+                dp[i][j] = 1 + dp[i-1][j-1];
+            else
+                dp[i][j] = max(dp[i-1][j],dp[i][j-1]);
+        }
+    }
+    return dp[m][n];
 }
 
 int main () {
