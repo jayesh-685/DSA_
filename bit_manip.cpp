@@ -94,8 +94,8 @@ int noOf1 (int n) {
 
 void subSets (int arr[], int n) {
     /* we can print subsets using bit manip
-    if there are 3 elements in a array then there are 2^n-1 sub sets
-    write no from 0 to n-1 in their binary representation
+    if there are n elements in a array then there are 2^n sub sets
+    write no from 0 to 2^n-1 in their binary representation
     if there is 1 at pos of element, print it else skip
     ex: arr = {a, b, c}
     _       000     0
