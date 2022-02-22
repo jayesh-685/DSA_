@@ -93,6 +93,42 @@ int lcs (string s1, string s2) {
     return dp[m][n];
 }
 
+// coin change count combinations
+// given a sum and a coins array, find the no of ways in which given coins can be arranged to get required sum (infinite supply of coins)
+// For example, for N = 4 and S = {1,2,3}, there are four solutions: {1,1,1,1},{1,1,2},{2,2},{1,3}. So output should be 4
+
+int coinChangeRec (int coins[], int n, int sum) {
+    if (sum == 0)   return 1;
+    if (n == 0)    return 0;
+
+    int res = coinChangeRec(coins, n-1, sum);
+    if (coins[n-1] <= sum)
+        // not reducing the count of coins because we have infinite supply
+        res += coinChangeRec(coins, n-1, sum-coins[n-1]);
+
+    return res;
+}
+
+int coinChangeTabu (int coins[], int n, int sum) {
+    vector <vector <int>> dp (sum+1, vector <int> (n+1));
+
+    for (int i=0; i<=n; i++)
+        dp[0][i] = 1;
+
+    for (int i=0; i<=sum; i++)
+        dp[i][0] = 0;
+
+    for (int i=1; i<=sum; i++) {
+        for (int j=1; j<=n; j++) {
+            dp[i][j] = dp[i][j-1];
+            if (coins[j-1] <= i)
+                dp[i][j] += dp[i-coins[j-1]][j];
+        }
+    }
+}
+// won't work if rows and columns are swapped. Why?
+// O(n*sum) both time and space
+
 int main () {
     cout << fibo(5) << endl;
 }
