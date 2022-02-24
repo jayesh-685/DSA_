@@ -125,6 +125,8 @@ int coinChangeTabu (int coins[], int n, int sum) {
                 dp[i][j] += dp[i-coins[j-1]][j];
         }
     }
+
+    return dp[n][sum];
 }
 // won't work if rows and columns are swapped. Why?
 // O(n*sum) both time and space
@@ -144,7 +146,29 @@ int editDistRec (string s1, string s2, int n, int m) {
         return 1 + min(editDistRec(s1, s2, n, m-1), editDistRec(s1, s2, n-1, m), editDistRec(s1, s2, n-1, m-1));
 }
 
+int editDistTab (string s1, string s2, int n, int m) {
+    vector <vector <int>> dp (n+1, vector <int> (m+1));
+
+    for (int i=0; i<=m; i++)
+        dp[0][i] = i;
+
+    for (int i=0; i<=n; i++)
+        dp[i][0] = i;
+
+    for (int i=1; i<=n; i++) {
+        for (int j=1; j<=m; j++) {
+            if (s1[i-1] == s2[j-1])
+                dp[i][j] = dp[i-1][j-1];
+            else
+                dp[i][j] = 1 + min(dp[i][j-1], min(dp[i-1][j], dp[i-1][j-1]));
+        }
+    }
+
+    return dp[n][m];
+}
+// theta(n*m)
 
 int main () {
-    cout << fibo(5) << endl;
+    // cout << fibo(5) << endl;
+    cout << editDistTab("CAT", "CUT", 3, 3);
 }
