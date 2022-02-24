@@ -143,7 +143,7 @@ int editDistRec (string s1, string s2, int n, int m) {
         return editDistRec(s1, s2, n-1, m-1);
     else 
         // considering all operations: insertion deletetion replacing
-        return 1 + min(editDistRec(s1, s2, n, m-1), editDistRec(s1, s2, n-1, m), editDistRec(s1, s2, n-1, m-1));
+        return 1 + min(editDistRec(s1, s2, n, m-1), min(editDistRec(s1, s2, n-1, m), editDistRec(s1, s2, n-1, m-1)));
 }
 
 int editDistTab (string s1, string s2, int n, int m) {
@@ -168,7 +168,31 @@ int editDistTab (string s1, string s2, int n, int m) {
 }
 // theta(n*m)
 
+// longest increasing subsequence
+
+int lis (vector <int> arr, int n) {
+    vector <int> ans (n);
+    ans[0] = 1;
+
+    for (int i=1; i<n; i++) {
+        ans[i] = 1;
+        for (int j=0; j<i; j++) {
+            if (arr[j] <= arr[i]) 
+                ans[i] = max(ans[i], ans[j]+1);
+        }
+    }
+
+    int res = ans[0];
+    for (int i=1; i<n; i++)
+        res = max(res, ans[i]);
+
+    return res;
+}
+
 int main () {
     // cout << fibo(5) << endl;
-    cout << editDistTab("CAT", "CUT", 3, 3);
+    // cout << editDistTab("CAT", "CUT", 3, 3);
+
+    vector <int> arr = {3, 4, 2, 8, 10, 5, 1};
+    cout << lis(arr, 7);
 }
