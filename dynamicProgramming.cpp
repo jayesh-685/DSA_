@@ -189,6 +189,39 @@ int lis (vector <int> arr, int n) {
     return res;
 }
 
+// maximum cuts
+// given a rope of length n and 3 integers a, b and c find the maximum no of cuts so that every piece is of length a, b or c
+
+int maxCutsRec (int n, int a, int b, int c) {
+
+    if (n < 0)    return -1;
+    if (n == 0)    return 0;
+
+    int res = max(maxCutsRec(n-a, a, b, c), max(maxCutsRec(n-b, a, b, c), maxCutsRec(n-c, a, b, c)));
+    // not adding 1 here because if all 3 calls return -1 then it will return 0 which is wrong
+
+    if (res == -1)
+        return res;
+    return res+1;
+} // O(3^n)
+
+int maxCutsTab (int n, int a, int b, int c) {
+    vector <int> dp (n+1);
+    dp[0] = 0;
+
+    for (int i=1; i<=n; i++) {
+        dp[i] = 0;
+        if (i-a >= 0)   dp[i] = max(dp[i], dp[i-a]);
+        if (i-b >= 0)   dp[i] = max(dp[i], dp[i-b]);
+        if (i-c >= 0)   dp[i] = max(dp[i], dp[i-c]);
+
+        if (dp[i] != -1)
+            dp[i]++;
+    }
+
+    return dp[n];
+} // theta(n)
+
 int main () {
     // cout << fibo(5) << endl;
     // cout << editDistTab("CAT", "CUT", 3, 3);
