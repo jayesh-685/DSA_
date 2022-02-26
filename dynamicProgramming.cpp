@@ -222,6 +222,78 @@ int maxCutsTab (int n, int a, int b, int c) {
     return dp[n];
 } // theta(n)
 
+// minimum coins to make a value
+int minCoinsRec (int coins[], int n, int val) {
+    int res = INT_MAX;
+    for (int i=0; i<n; i++) {
+        if (coins[i] <= val) {
+            int sub_res = minCoinsRec(coins, n, val-coins[i]);
+            if (sub_res != INT_MAX)
+                res = min(res, sub_res + 1);
+        }
+    }
+
+    return res;
+}
+
+int minCoinsTab (int coins[], int n, int val) {
+    vector <int> dp (val+1);
+    dp[0] = 0;
+
+    for (int i=1; i<=val; i++) {
+        for (int j=0; j<n; j++) {
+            if (coins[j] <= i) {
+                int sub_res = dp[i - coins[j]]; 
+                if (sub_res != INT_MAX  && sub_res + 1 < dp[i]) 
+                    dp[i] = sub_res + 1;
+            }
+        }
+    }
+
+    return dp[val];
+}
+
+// minimum jumps to reach end
+/* Given an array of integers where each element represents the max number of steps that can be made forward from that element. Write a function to return the minimum number of jumps to reach the end of the array (starting from the first element). If an element is 0, they cannot move through that element. If the end isn’t reachable, return -1.
+Examples: 
+Input: arr[] = {1, 3, 5, 8, 9, 2, 6, 7, 6, 8, 9}
+Output: 3 (1-> 3 -> 9 -> 9) */
+
+// start from 0 and call recursively for each element from which last index can be reached
+int minJumpsRec (int arr[], int n) {
+
+    if (n == 1)
+        return 0; 
+
+    int res = INT_MAX;
+    for (int i=0; i<n-1; i++) {
+        if (arr[i] >= n-i-1) {
+            int sub_res = minJumpsRec(arr, i+1);
+            if (sub_res != INT_MAX)
+                res = min(sub_res+1, res);
+        }
+    }
+
+    return res;
+}
+
+int minJumpsTab (int arr[], int n) {
+    vector <int> dp (n, INT_MAX);
+    // dp[i] = minimum jumps to reach index i from 0
+    dp[0] = 0;
+
+    for (int i=1; i<n; i++) {
+        for (int j=0; j<i; j++) {
+            if (arr[j]+j >= i) {
+                if (dp[j] != INT_MAX)
+                    dp[i] = min(dp[i], dp[j]+1);
+            }
+        }
+    }
+
+    return dp[n-1];
+} // Theta(n^2) theta(n)
+
 int main () {
     // cout << fibo(5) << endl;
     // cout << editDistTab("CAT", "CUT", 3, 3);
