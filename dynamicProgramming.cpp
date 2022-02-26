@@ -294,6 +294,35 @@ int minJumpsTab (int arr[], int n) {
     return dp[n-1];
 } // Theta(n^2) theta(n)
 
+// 0 1 knapsack
+int knapsack01Rec (int wt[], int val[], int n, int W) {
+
+    if (n == 0 || W == 0)
+        return 0;
+
+    if (wt[n-1] > W)
+        return knapsack01Rec(wt, val, n-1, W);
+    else 
+        return max(knapsack01Rec(wt, val, n-1, W), knapsack01Rec(wt, val, n-1, W-wt[n-1]));
+}
+
+int knapsack01Tab (int wt[], int val[], int n, int W) {
+    vector <vector <int>> dp (n+1, vector <int> (W+1));
+    // dp[i][j] represents max value we can collect with i items and knapsack capacity j
+
+    for (int i=1; i<=n; i++) {
+        for (int j=1; j<=W; j++) {
+            if (wt[i-1] > j)
+                dp[i][j] = dp[i-1][j];
+            else
+                dp[i][j] = max(dp[i-1][j], val[i-1] + dp[i-1][j - wt[i-1]]);
+        }
+    }
+
+    return dp[n][W];
+
+} // theta(n*W)
+
 int main () {
     // cout << fibo(5) << endl;
     // cout << editDistTab("CAT", "CUT", 3, 3);
