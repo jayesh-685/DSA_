@@ -323,10 +323,54 @@ int knapsack01Tab (int wt[], int val[], int n, int W) {
 
 } // theta(n*W)
 
+// optimal strategy for the game
+/* Consider a row of n coins of values v1 . . . vn, where n is even. We play a game against an opponent by alternating turns. In each turn, a player selects either the first or last coin from the row, removes it from the row permanently, and receives the value of the coin. Determine the maximum possible amount of money we can definitely win if we move first.
+Note: The opponent is as clever as the user. */
+// we can control if the opponent always choses odd coins or even coins... so if we calculate the sum of odd coins and even coins then we can make sure we never loose, if not win by the biggest value.
+
+int optimalStratHelp (int arr[], int i, int j, int sum) {
+
+    // if there are only two elements
+    if (i+1 == j)
+        return max(arr[i], arr[j]);
+
+    // calculate the sum of opponent then subtract it from total sum to get our sum
+    return max(sum - optimalStratHelp(arr, i+1, j, sum-arr[i]), sum - optimalStratHelp(arr, i, j-1, sum-arr[j]));
+}
+
+int optimalStrat (int arr[], int n) {
+    int sum = 0; 
+    for (int i=0; i<n; i++)
+        sum += arr[i];
+    
+    return optimalStratHelp(arr, 0, n-1, sum);
+    // opponent is as clever as the user so we get the opponent's optimal value and subtract it from the sum
+}
+
+// if we convert the above solution into a tabulation based dp solution then due to the large value of sum we will require a huge amount of aux space so we'll try deriving a solution without needing to calculate sum
+
+// you can pick ith coin or jth coin. If you pick ith coin opponent will choose from (i+1)th coin and jth coin such that you get the minimum value after he picks the coin.
+
+int optimalStratHelp2 (int arr[], int n, int i, int j) {
+
+    if (i+1 == j) 
+        return max(arr[i], arr[j]);
+
+    return max((arr[i] + min(optimalStratHelp2(arr, n, i+2, j), optimalStratHelp2(arr, n, i+1, j-1))), (arr[j] + min(optimalStratHelp2(arr, n, i+1, j-1), optimalStratHelp2(arr, n, i, j-2))));
+}
+
+int optimalStrat2(int arr[], int n) {
+    return optimalStratHelp2(arr, n, 0, n-1);
+}
+
 int main () {
     // cout << fibo(5) << endl;
     // cout << editDistTab("CAT", "CUT", 3, 3);
 
-    vector <int> arr = {3, 4, 2, 8, 10, 5, 1};
-    cout << lis(arr, 7);
+    // vector <int> arr = {3, 4, 2, 8, 10, 5, 1};
+    // cout << lis(arr, 7);
+
+    int arr[] = {20, 30, 2, 2, 2, 10};
+    int n = sizeof(arr)/sizeof(arr[0]);
+    cout << optimalStrat2(arr, n);
 }
