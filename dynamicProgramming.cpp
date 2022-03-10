@@ -363,6 +363,47 @@ int optimalStrat2(int arr[], int n) {
     return optimalStratHelp2(arr, n, 0, n-1);
 }
 
+// for tabulation based solution our answer is top right corner and not bottom right becuause we get our answer when i=0 and j=n-1. Also we don't need values corresponding to the diagonal or below it becuase i is always less than j.
+int optimalStratTab (int arr[], int n) {
+    return 0;
+}
+
+/* You are given k identical eggs and you have access to a building with n floors labeled from 1 to n.
+You know that there exists a floor f where 0 <= f <= n such that any egg dropped at a floor higher than f will break, and any egg dropped at or below floor f will not break.
+Each move, you may take an unbroken egg and drop it from any floor x (where 1 <= x <= n). If the egg breaks, you can no longer use it. However, if the egg does not break, you may reuse it in future moves.
+Return the minimum number of moves that you need to determine with certainty what the value of f is. */
+
+int eggDropRec (int floors, int eggs) {
+
+    if (floors == 0 || floors == 1)    return floors;
+    if (eggs == 1)    return floors;
+
+    int res = INT_MAX;
+    for (int i=1; i<=floors; i++) {
+        int val = max(eggDropRec(floors-i, eggs), eggDropRec(i-1, eggs-1));
+        res = min(res, val);
+    }
+
+    return res+1;
+}
+
+// no of bsts with n nodes
+int bstNkeys (int n) {
+    int dp[n+1];
+    dp[0] = 1;
+    dp[1] = 1;
+
+    for (int i=2; i<=n; i++) {
+        int res = 0;
+        for (int j=0; j<i; j++) 
+            res += dp[j]*dp[i-j-1];
+        dp[i] = res;
+    }
+
+    return dp[n];
+}
+
+// maximum sum with no two consecutive 
 int main () {
     // cout << fibo(5) << endl;
     // cout << editDistTab("CAT", "CUT", 3, 3);
@@ -370,7 +411,10 @@ int main () {
     // vector <int> arr = {3, 4, 2, 8, 10, 5, 1};
     // cout << lis(arr, 7);
 
-    int arr[] = {20, 30, 2, 2, 2, 10};
-    int n = sizeof(arr)/sizeof(arr[0]);
-    cout << optimalStrat2(arr, n);
+    // int arr[] = {20, 30, 2, 2, 2, 10};
+    // int n = sizeof(arr)/sizeof(arr[0]);
+    // cout << optimalStrat2(arr, n);
+
+    // cout << eggDropRec(7, 3);
+    cout << bstNkeys(4);
 }
