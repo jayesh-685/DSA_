@@ -1,20 +1,35 @@
 #include "bits/stdc++.h"
 using namespace std;
 
+string solve (int n) {
+	string ans;
+	string subStr;
+	int x = n/3;
+	if (n%3 == 0 || n%3 == 2) {
+		subStr = "21";
+	} else {
+		subStr = "12";
+	}
+
+	for (int i=1; i<=x; i++) {
+		ans += subStr;
+	}
+
+	if (n%3 == 2) {
+		ans += '2';
+	} else if (n%3 == 1) {
+		ans += '1';
+	}
+
+	return ans;
+}
+
 int main () {
 	int T;
 	cin >> T;
 	while (T--) {
-		int l, r, a;
-		cin >> l >> r >> a;
-		int res = 0;
-		if (l/a == r/a) {
-			res = (r/a) + (r%a);
-		} else {
-			res = max((r/a + r%a), (r/a -1 + a-1));
-		}
-
-		cout << res << endl;	
+		int n; 
+		cin >> n;
+		cout << solve(n) << endl;
 	}
-	
 }
