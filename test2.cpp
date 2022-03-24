@@ -26,8 +26,8 @@ bool isPanlindrome (string s) {
 }
 
 int main () {
-    string s = "abcdef";
-    s = s.substr(1);
+    string s = "ab";
+    s = s.substr(2);
     cout << s << endl;
 
     cout << isRegular("(())(())") << endl;

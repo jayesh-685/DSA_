@@ -11,13 +11,16 @@ int main () {
 	while (T--) {
 		int n;
 		cin >> n;
-		if (n%2 == 0)
-			cout << n/2 << endl;
-		else {
-			n /= 2;
-			n += 1;
-			n *= -1;
-			cout << n << endl;
+		string s;
+		cin >> s;
+		int op=0, i=0;
+		for (int j=1; j<n; j++) {
+			if ((s[i]=='(' && s[j]==')') || (s[i] == s[j])) {
+				i = ++j;
+				++op;
+			}
 		}
+		cout << op << " " << n-i << endl;
 	}
+	
 }
