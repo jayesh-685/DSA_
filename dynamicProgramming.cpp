@@ -403,6 +403,33 @@ int bstNkeys (int n) {
     return dp[n];
 }
 
+int mcn (vector <int> v) {
+    int n = v.size();
+    vector <vector <int>> mcn (n-1, vector <int> (n-1));
+
+    for (int g=0; g<mcn.size(); g++) {
+        for (int i=0, j=g; j<mcn.size(); i++, j++) {
+            if (g == 0) {
+                mcn[i][j] == 0; 
+            } else if (g == 1) {
+                mcn[i][j] = v[i] * v[j] * v[j+1];
+            } else {
+                int minVal = INT_MAX;
+                for (int k=i; k<j; k++) {
+                    int lc = mcn[i][k];
+                    int rc = mcn[k+1][j];
+                    int mc = v[i] * v[k+1] * v[j+1];
+                    int total = lc + rc + mc;
+                    minVal = min(minVal, total);
+                }
+                mcn[i][j] = minVal;
+            }
+        }
+    }
+
+    return mcn[0][mcn.size()-1];
+}
+
 // maximum sum with no two consecutive 
 int main () {
     // cout << fibo(5) << endl;
