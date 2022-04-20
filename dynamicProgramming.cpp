@@ -443,5 +443,8 @@ int main () {
     // cout << optimalStrat2(arr, n);
 
     // cout << eggDropRec(7, 3);
-    cout << bstNkeys(4);
+    // cout << bstNkeys(4);
+
+    vector <int> v = {10, 20, 30, 40, 30};
+    cout << mcn(v) << endl;
 }
