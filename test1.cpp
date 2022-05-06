@@ -1,8 +1,25 @@
 #include "bits/stdc++.h"
 using namespace std;
 
-int solve (string s) {
+bool solve (vector <int> adj[], int v, int s) {
+	bool visited [v+1];
+	queue <int> q;
+	q.push(s);
+	visited[s] = true;
+	while (!q.empty()) {
+		int curr = q.front();
+		q.pop();
+		for (int x: adj[curr]) {
+			if (visited[x] && x!=curr)
+				return true;
+			else {
+				visited[x] = true;
+				q.push(x);
+			}
+		}
+	}
 
+	return false;
 }
 
 int main () {

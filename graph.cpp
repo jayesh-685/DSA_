@@ -151,8 +151,27 @@ int bfs_dis (vector <int> adj[], int v) {
 	}
 	return count;
 }
-// O(V+E)   // v is also included because of corner case where all vertices are disconnected
-// can find shortes path for unweighted graphs
+// O(V+E)   
+/*
+Queue graphTraversal.add(firstVertex);
+
+// This while loop will run V times, where V is total number of vertices in graph.
+while(graphTraversal.isEmpty == false)
+
+    currentVertex = graphTraversal.getVertex();
+
+    // This while loop will run Eaj times, where Eaj is number of adjacent edges to current vertex.
+    while(currentVertex.hasAdjacentVertices)
+        graphTraversal.add(adjacentVertex);
+
+    graphTraversal.remove(currentVertex);
+Time complexity is as follows:
+
+V * (O(1) + O(Eaj) + O(1))
+V + V * Eaj + V
+2V + E(total number of edges in graph)
+V + E
+*/
 
 /* DFS
 The Depth-First Traversal or the DFS traversal of a Graph is used to traverse a graph depth wise. That is, it in this traversal method, we start traversing the graph from a node and keep on going in the same direction as far as possible. When no nodes are left to be traversed along the current path, backtrack to find a new possible path and repeat this process until all of the nodes are visited.
@@ -196,7 +215,10 @@ int dfs_dis(vector<int> adj[], int V){
 	return count;
 }
 // O(V+E)
-/* each vertex is enqueued at most once, and hence dequeued at most once. The operations of enqueuing and dequeuing take O(1) time, and so the total time devoted to queue operations is O(V). Because the procedure scans the adjacency list of each vertex only when the vertex is dequeued, it scans each adjacency list at most once. Since the sum of the lengths of all the adjacency lists is Theta(E), the total time spent in scanning adjacency lists is O(E). The overhead for initialization is O(V),and thus the total running time of the BFS procedure is O(V+E). Thus, breadth-first search runs in time linear in the size of the adjacency-list representation of G. */
+/* Each vertex keeps track of all of its neighboring edges. Let's pretend there are V vertices and E edges in the graph.
+You find all of a node's neighbors by traversing its adjacency list only once in linear time.
+The sum of the sizes of the adjacency lists of all vertices in a directed graph is E. In this example, the temporal complexity is O(V) + O(E) = O(V + E).
+Each edge in an undirected graph appears twice. Once at either end of the edge's adjacency list. This case's temporal complexity will be O(V) + O (2E) O(V + E). */
 
 // shortest path in unweighted graph
 // we use bfs since it traverses graph in shortest path manner
@@ -278,6 +300,28 @@ bool detectCycleBFS (vector <int> adj[], int v, int s) {
 		}
 		return false;
 	}
+}
+
+bool detectCycleBFS (vector <int> adj[], int v, int s) {
+	bool visited [v+1];
+	queue <pair<int, int>> q;
+	q.push({s, -1});
+	visited[s] = true;
+	while (!q.empty()) {
+		int curr = q.front().first;
+		int parent = q.front().second;
+		q.pop();
+		for (int x: adj[curr]) {
+			if (visited[x] && x!=parent)
+				return true;
+			else {
+				visited[x] = true;
+				q.push({x, curr});
+			}
+		}
+	}
+
+	return false;
 }
 
 // detect cycle in a directed graph usign dfs
