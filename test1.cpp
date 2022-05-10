@@ -1,43 +1,48 @@
 #include "bits/stdc++.h"
 using namespace std;
 
-bool solve (vector <int> adj[], int v, int s) {
-	bool visited [v+1];
-	queue <int> q;
-	q.push(s);
-	visited[s] = true;
-	while (!q.empty()) {
-		int curr = q.front();
-		q.pop();
-		for (int x: adj[curr]) {
-			if (visited[x] && x!=curr)
+class Solution {
+public:
+
+	bool dfs (vector <int> adj[], vector <bool> &visited, vector <bool> &currStack, int source) {
+		visited[source] = true;
+		currStack[source] = true;
+
+		for (int x: adj[source]) {
+			if (!visited[x] && dfs(adj, visited, currStack, x))
 				return true;
-			else {
-				visited[x] = true;
-				q.push(x);
-			}
+			else if (currStack[x])
+				return true;
 		}
+
+		currStack[source] = false;
+		return false;
 	}
 
-	return false;
-}
+	bool detectLoop (vector <int> adj [], int n) {
+		vector <bool> visited (n);
+
+		for (int i=0; i<n; i++) {
+			if (!visited[i]) {
+				vector <bool> currStack (n);
+				if (dfs(adj, visited, currStack, i)) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        vector <int> adj[numCourses];
+		for (int i=0; i<numCourses; i++) {
+			adj[prerequisites[i][0]].push_back(prerequisites[i][1]);
+		}
+
+    }
+};
 
 int main () {
-	int T;
-	cin >> T;
-	while (T--) {
-		int n;
-		cin >> n;
-		string s;
-		cin >> s;
-		int op=0, i=0;
-		for (int j=1; j<n; j++) {
-			if ((s[i]=='(' && s[j]==')') || (s[i] == s[j])) {
-				i = ++j;
-				++op;
-			}
-		}
-		cout << op << " " << n-i << endl;
-	}
-	
+
 }
