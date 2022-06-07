@@ -1,40 +1,54 @@
 #include "bits/stdc++.h"
 using namespace std;
 
-bool isRegular (string s) {
-	stack <int> st;
-	for (int i=0; i<s.length(); i++) {
-		if (s[i] == '(') {
-			st.push(1);
-		} else {
-			if (st.empty())
-				return false;
-			st.pop();
-		}
-	}
-	return st.empty();
-}
-
-bool isPanlindrome (string s) {
-	int n = s.length();
-	for (int i=0; i<s.length()/2; i++) {
-		if (s[i] != s[n-i-1])
-			return false;
-	}
-
-	return true;
-}
-
 int main () {
-    string s = "ab";
-    s = s.substr(2);
-    cout << s << endl;
+	int t;
+	cin >> t;
+	while (t--) {
+		int n;
+		cin >> n;
+		string ans = "YES";
+		vector <int> v1, v2;
+		int x;
+		for (int i=0; i<n; i++) {
+			cin >> x;
+			v1.push_back(x);
+		}
+		for (int i=0; i<n; i++) {
+			cin >> x;
+			v2.push_back(x);
+		}
 
-    cout << isRegular("(())(())") << endl;
-    cout << isRegular(")(") << endl;
-    cout << isRegular(")()()))()") << endl;
+		// finding diff
+		int diff;
+		bool flag = false;
+		for (int i=0; i<n; i++) {
+			if (v1[i] && v2[i]) {
+				diff = v1[i] - v2[i];
+				flag = true;
+				break;
+			}
+		}
+		if (!flag)
+			diff = v1[0] - v2[0];
 
-    cout << isPanlindrome("())(") << endl;
-    cout << isPanlindrome("((((") << endl;
-    cout << isPanlindrome(")(()()((()()") << endl;
+		if (diff < 0)
+			ans = "NO";
+		
+		else {
+			for (int i=0; i<n; i++) {
+				int val = v1[i] - v2[i];
+				if (val != diff) {
+					if (val < diff && v2[i] == 0)
+						continue;
+					else {
+						ans = "NO";
+						break;
+					}
+				}
+			}
+		}
+
+		cout << ans << endl;
+	}
 }
