@@ -454,6 +454,29 @@ int coinChangeMin (vector <int> coins, int amount) {
     return dp[coins.size()][amount] == INT_MAX - 1 ? -1 : dp[coins.size()][amount]  ;
 }
 
+/* 
+MAX PRODUCT SUBARRAY
+public:
+//     in max sum subarray we set sum to 0 when it beomes -ve but in max product even if product is currently negative we keep track of it because it might becmoe positive later when we multiply it with some other negative number
+    int maxProduct(vector<int>& nums) {
+        int res = nums[0];
+        for (auto x: nums)
+            res = max(res, x);
+        int currMin=1, currMax=1;
+        for (auto x: nums) {
+            if (x==0) {
+                currMin = 1; currMax = 1;
+            } else {
+                int temp = currMax;
+                currMax = max(x*currMax, max(x*currMin, x));
+                currMin = min(x*temp, min(x*currMin, x));
+                res = max(res, currMax);
+            }
+        }
+        
+        return res;
+    }
+ */
 // maximum sum with no two consecutive 
 int main () {
     // cout << fibo(5) << endl;
