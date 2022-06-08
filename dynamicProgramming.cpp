@@ -169,7 +169,8 @@ int editDistTab (string s1, string s2, int n, int m) {
 // theta(n*m)
 
 // longest increasing subsequence
-
+// create a lis array such that lis[i] = lis ending with element a[i].
+// to calculate a[i] we iterate over all the elements from 0 to i-1 and if the elements is less than a[i] then its value + 1 can be the value of a[i] so we take maximum of all such values
 int lis (vector <int> arr, int n) {
     vector <int> ans (n);
     ans[0] = 1;
@@ -188,6 +189,7 @@ int lis (vector <int> arr, int n) {
 
     return res;
 }
+// Theta(n^2), theta(n)
 
 // maximum cuts
 // given a rope of length n and 3 integers a, b and c find the maximum no of cuts so that every piece is of length a, b or c
