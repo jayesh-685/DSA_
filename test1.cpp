@@ -1,6 +1,36 @@
 #include "bits/stdc++.h"
 using namespace std;
 
+vector<int> twoSum(vector<int>& numbers, int target) {
+	vector <int> ans;
+	int i = 1;
+    int n = numbers.size();
+	while (i<n && numbers[i]+numbers[i-1] < target)
+		i++;
+
+	if (numbers[i] + numbers[i-1] == target) {
+		ans.push_back(i);
+		ans.push_back(i+1);
+		return ans;
+	}
+
+	int l=i-1, r=i;
+	while (l>0 && r<n) {
+		int sum = numbers[l]+numbers[r];
+		if (sum == target) {
+			break;
+		} else if (sum > target) {
+			l--;
+		} else {
+			r++;
+		}
+	}
+
+	ans.push_back(l+1);
+	ans.push_back(r+1);
+	return ans;
+}
+
 int main () {
 	int t;
 	cin >> t;
