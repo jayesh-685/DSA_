@@ -31,6 +31,23 @@ vector<int> twoSum(vector<int>& numbers, int target) {
 	return ans;
 }
 
+int lengthOfLongestSubstring(string s) {
+	vector <int> lastOcc (100, -1);
+	int l=0, r=0;
+	int res = 1, length = 0;
+	int n = s.length();
+	while (r<n) {
+		if (lastOcc[r] != -1) {
+			l = max(l, lastOcc[r]+1);
+		}
+		lastOcc[r] = r;
+		length = r-l+1;
+		res = max(res, length);
+	}
+
+	return res;
+}
+
 int main () {
 	int t;
 	cin >> t;
