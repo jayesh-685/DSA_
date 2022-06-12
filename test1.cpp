@@ -1,92 +1,63 @@
 #include "bits/stdc++.h"
 using namespace std;
 
-vector<int> twoSum(vector<int>& numbers, int target) {
-	vector <int> ans;
-	int i = 1;
-    int n = numbers.size();
-	while (i<n && numbers[i]+numbers[i-1] < target)
-		i++;
-
-	if (numbers[i] + numbers[i-1] == target) {
-		ans.push_back(i);
-		ans.push_back(i+1);
-		return ans;
-	}
-
-	int l=i-1, r=i;
-	while (l>0 && r<n) {
-		int sum = numbers[l]+numbers[r];
-		if (sum == target) {
-			break;
-		} else if (sum > target) {
-			l--;
-		} else {
-			r++;
-		}
-	}
-
-	ans.push_back(l+1);
-	ans.push_back(r+1);
-	return ans;
-}
-
-int lengthOfLongestSubstring(string s) {
-	vector <int> lastOcc (100, -1);
-	int l=0, r=0;
-	int res = 1, length = 0;
-	int n = s.length();
-	while (r<n) {
-		if (lastOcc[r] != -1) {
-			l = max(l, lastOcc[r]+1);
-		}
-		lastOcc[r] = r;
-		length = r-l+1;
-		res = max(res, length);
-	}
-
-	return res;
-}
 
 int main () {
 	int t;
 	cin >> t;
 	while (t--) {
-		int n;
-		cin >> n;
-		vector <int> v1, v2;
-		int x;
-		for (int i=0; i<n; i++) {
-			cin >> x;
-			v1.push_back(x);
-		}
-		for (int i=0; i<n; i++) {
-			cin >> x;
-			v2.push_back(x);
-		}
+		int n, m, k;
+		cin >> n >> m >> k;
+		string a, b, c;
+		cin >> a >> b;
+		sort(a.begin(), a.end());
+		sort(b.begin(), b.end());
+		if (a > b) 
+			swap(a, b);
+		
 
-		bool flag = false;
-		int maxDiff = 0;
+		// cout << a << " " << b << endl;
 
-		for (int i=0; i<n; i++) {
-			if (v1[i] < v2[i]) {
-				flag = true;
-				break;
+		while (a.length() && b.length()) {
+			for (int i=0; i<k; i++) {
+				if (i == 0) {
+					c += a[0];
+					a = a.substr(1);
+					continue;
+				}
+				if (a[0] < b[0]) {
+					c += a[0];
+					a = a.substr(1);
+				} else {
+					break;
+				}
+				if (!a.length()) 
+					break;
 			}
-			maxDiff = max(maxDiff, abs(v1[i]-v2[i]));
-		}
 
-		for (int i=0; i<n; i++) {
-			int val = max(v1[i]-maxDiff, 0);
-			if (val != v2[i]) {
-				flag = true;
+			if (!a.length())
 				break;
+
+			for (int i=0; i<k; i++) {
+				if (i == 0) {
+					c += b[0];
+					b = b.substr(1);
+					continue;
+				}
+				if (b[0] < a[0]) {
+					c += b[0];
+					b = b.substr(1);
+				} else {
+					break;
+				}
+				if (!b.length())
+					break;
 			}
+
+			if (!b.length())
+				break;
 		}
 
-		if (flag == true) 
-			cout << "NO" << endl;
-		else 
-			cout << "YES" << endl;
+		cout << c << endl;
 	}
 }
